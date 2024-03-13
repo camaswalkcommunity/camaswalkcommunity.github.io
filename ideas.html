@@ -44,6 +44,13 @@
     // Array to store ideas
     var ideas = [];
 
+    // Check if the user has already voted
+    var hasVoted = localStorage.getItem('voted');
+    if (hasVoted) {
+      // Disable voting buttons if the user has already voted
+      $('.vote-btn').prop('disabled', true);
+    }
+
     // Function to display ideas
     function displayIdeas() {
       $('#ideaList').empty(); // Clear previous ideas
@@ -85,10 +92,13 @@
     function voteForIdea(idea) {
       idea.votes++; // Increment votes for the idea
       displayIdeas(); // Update display
-    }
 
-    // Initial display
-    displayIdeas();
+      // Store in browser that user has voted
+      localStorage.setItem('voted', 'true');
+
+      // Disable voting buttons
+      $('.vote-btn').prop('disabled', true);
+    }
   });
 </script>
 
