@@ -1,7 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Initiative</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    .idea {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+
+<div class="container mt-5">
+  <h1 class="mb-4">Community Initiative</h1>
+
+  <!-- Idea Submission Form -->
+  <form id="ideaForm">
+    <div class="form-group">
+      <label for="ideaInput">Submit your idea:</label>
+      <input type="text" class="form-control" id="ideaInput" placeholder="Enter your idea">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+  <!-- Idea List -->
+  <div id="ideaList" class="mt-4">
+    <!-- Ideas will be dynamically added here -->
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    // Array to store ideas
+    var ideas = [];
+
+    // Function to display ideas
+    function displayIdeas() {
+      $('#ideaList').empty(); // Clear previous ideas
+
+      // Sort ideas based on votes (descending)
+      ideas.sort((a, b) => b.votes - a.votes);
+
+      // Display each idea
+      ideas.forEach(function(idea) {
+        var $idea = $('<div class="idea">').html(idea.text + ' - <strong>' + idea.votes + ' votes</strong>');
+        $('#ideaList').append($idea);
+      });
+    }
+
+    // Function to handle idea submission
+    $('#ideaForm').submit(function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      var ideaText = $('#ideaInput').val().trim(); // Get idea text
+      if (ideaText !== '') {
+        // Create new idea object
+        var newIdea = {
+          text: ideaText,
+          votes: 0
+        };
+
+        ideas.push(newIdea); // Add idea to array
+        displayIdeas(); // Update display
+        $('#ideaInput').val(''); // Clear input field
+      }
+    });
+
+    // Initial display
+    displayIdeas();
+  });
+</script>
+
 </body>
 </html>
