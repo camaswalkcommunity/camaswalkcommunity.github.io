@@ -4,67 +4,82 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Page</title>
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID",
+      measurementId: "YOUR_MEASUREMENT_ID" // Optional for Firebase JS SDK v7.20.0 and later
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Your custom styles -->
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background-image: url('background-image.jpg'); /* Replace 'background-image.jpg' with your actual image URL */
+      background-image: url('path/to/your/background-image.jpg'); /* Add the path to your background image */
       background-size: cover;
       background-position: center;
       height: 100vh;
+      margin: 0;
+      padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
     }
-
-    .login-container {
-      background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-      padding: 20px;
+    .container {
+      background-color: rgba(255, 255, 255, 0.8); /* Add opacity to make the background semi-transparent */
+      padding: 30px;
       border-radius: 10px;
-      text-align: center;
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
     }
-
-    .login-container h2 {
+    .form-group {
       margin-bottom: 20px;
     }
-
-    .login-container form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .login-container input[type="text"],
-    .login-container input[type="password"] {
-      width: 250px;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    .login-container input[type="submit"] {
-      width: 100px;
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-      background-color: #007bff; /* Blue color for submit button */
-      color: white;
-      cursor: pointer;
+    button[type="submit"] {
+      width: 100%;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1 class="text-center">Login Page</h1>
+    <!-- Your login form goes here -->
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+  </div>
 
-<div class="login-container">
-  <h2>Login</h2>
-  <form>
-    <input type="text" placeholder="Username" required>
-    <input type="password" placeholder="Password" required>
-    <input type="submit" value="Login">
-  </form>
-</div>
+  <!-- Bootstrap JS (optional, if needed) -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+  <!-- Your custom JavaScript (for handling login logic) -->
+  <script>
+    // Add your custom JavaScript code here to handle login logic using Firebase Authentication
+  </script>
 </body>
 </html>
