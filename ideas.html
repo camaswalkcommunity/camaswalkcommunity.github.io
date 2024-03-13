@@ -14,6 +14,9 @@
     .idea {
       margin-bottom: 20px;
     }
+    .vote-btn {
+      margin-left: 10px;
+    }
   </style>
 </head>
 <body>
@@ -51,6 +54,11 @@
       // Display each idea
       ideas.forEach(function(idea) {
         var $idea = $('<div class="idea">').html(idea.text + ' - <strong>' + idea.votes + ' votes</strong>');
+        var $voteBtn = $('<button type="button" class="btn btn-sm btn-success vote-btn">Vote</button>');
+        $voteBtn.click(function() {
+          voteForIdea(idea); // Call voteForIdea function when button is clicked
+        });
+        $idea.append($voteBtn);
         $('#ideaList').append($idea);
       });
     }
@@ -72,6 +80,12 @@
         $('#ideaInput').val(''); // Clear input field
       }
     });
+
+    // Function to handle voting for an idea
+    function voteForIdea(idea) {
+      idea.votes++; // Increment votes for the idea
+      displayIdeas(); // Update display
+    }
 
     // Initial display
     displayIdeas();
