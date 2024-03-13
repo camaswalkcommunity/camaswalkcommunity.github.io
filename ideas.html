@@ -41,8 +41,8 @@
 
 <script>
   $(document).ready(function() {
-    // Array to store ideas
-    var ideas = [];
+    // Retrieve ideas from localStorage
+    var ideas = JSON.parse(localStorage.getItem('ideas')) || [];
 
     // Check if the user has already voted
     var hasVoted = localStorage.getItem('voted');
@@ -83,6 +83,7 @@
         };
 
         ideas.push(newIdea); // Add idea to array
+        saveIdeasToLocalStorage(); // Save ideas to localStorage
         displayIdeas(); // Update display
         $('#ideaInput').val(''); // Clear input field
       }
@@ -91,6 +92,7 @@
     // Function to handle voting for an idea
     function voteForIdea(idea) {
       idea.votes++; // Increment votes for the idea
+      saveIdeasToLocalStorage(); // Save ideas to localStorage
       displayIdeas(); // Update display
 
       // Store in browser that user has voted
@@ -99,6 +101,14 @@
       // Disable voting buttons
       $('.vote-btn').prop('disabled', true);
     }
+
+    // Function to save ideas to localStorage
+    function saveIdeasToLocalStorage() {
+      localStorage.setItem('ideas', JSON.stringify(ideas));
+    }
+
+    // Initial display
+    displayIdeas();
   });
 </script>
 
