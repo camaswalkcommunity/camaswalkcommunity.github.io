@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Initiative</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+    .idea {
+      margin-bottom: 20px;
+    }
+    .vote-btn {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1 class="mb-4">Community Initiative</h1>
+
+  <!-- Idea Submission Form -->
+  <form id="ideaForm">
+    <div class="form-group">
+      <label for="ideaInput">Submit your idea:</label>
+      <input type="text" class="form-control" id="ideaInput" placeholder="Enter your idea">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+  <!-- Idea List -->
+  <div id="ideaList" class="mt-4">
+    <!-- Ideas will be dynamically added here -->
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    // Retrieve ideas from localStorage
+    var ideas = JSON.parse(localStorage.getItem('ideas')) || [];
+
+    // Check if the user has already voted
+    var hasVoted = localStorage.getItem('voted');
+    if (hasVoted) {
+      // Disable voting buttons if the user has already voted
+      $('.vote-btn').prop('disabled', true);
+    }
+
+    // Function to display ideas
+    function displayIdeas() {
+      $('#ideaList').empty(); // Clear previous ideas
+
+      // Sort ideas based on votes (descending)
+      ideas.sort((a, b) => b.votes - a.votes);
+
+      // Display each idea
+      ideas.forEach(function(idea) {
+        var $idea = $('<div class="idea">').html(idea.text + ' - <strong>' + idea.votes + ' votes</strong>');
+        var $voteBtn = $('<button type="button" class="btn btn-sm btn-success vote-btn">Vote</button>');
+        $voteBtn.click(function() {
+          voteForIdea(idea); // Call voteForIdea function when button is clicked
+        });
+        $idea.append($voteBtn);
+        $('#ideaList').append($idea);
+      });
+    }
+
+    // Function to handle idea submission
+    $('#ideaForm').submit(function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      var ideaText = $('#ideaInput').val().trim(); // Get idea text
+      if (ideaText !== '') {
+        // Create new idea object
+        var newIdea = {
+          text: ideaText,
+          votes: 0
+        };
+
+        ideas.push(newIdea); // Add idea to array
+        saveIdeasToLocalStorage(); // Save ideas to localStorage
+        displayIdeas(); // Update display
+        $('#ideaInput').val(''); // Clear input field
+      }
+    });
+
+    // Function to handle voting for an idea
+    function voteForIdea(idea) {
+      idea.votes++; // Increment votes for the idea
+      saveIdeasToLocalStorage(); // Save ideas to localStorage
+      displayIdeas(); // Update display
+
+      // Store in browser that user has voted
+      localStorage.setItem('voted', 'true');
+
+      // Disable voting buttons
+      $('.vote-btn').prop('disabled', true);
+    }
+
+    // Function to save ideas to localStorage
+    function saveIdeasToLocalStorage() {
+      localStorage.setItem('ideas', JSON.stringify(ideas));
+    }
+
+    // Initial display
+    displayIdeas();
+  });
+</script>
+
+</body>
+</html>
