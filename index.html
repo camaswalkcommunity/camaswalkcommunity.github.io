@@ -3,114 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Community Initiative</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <!-- Bootstrap JS -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <style>
-    .idea {
-      margin-bottom: 20px;
-    }
-    .vote-btn {
-      margin-left: 10px;
-    }
-  </style>
+  <title>Login</title>
+  <!-- Firebase JavaScript SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js"></script>
+  <!-- Your Firebase configuration -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </head>
 <body>
-
-<div class="container mt-5">
-  <h1 class="mb-4">Community Initiative</h1>
-
-  <!-- Idea Submission Form -->
-  <form id="ideaForm">
-    <div class="form-group">
-      <label for="ideaInput">Submit your idea:</label>
-      <input type="text" class="form-control" id="ideaInput" placeholder="Enter your idea">
+  <h1>Login</h1>
+  <form id="loginForm">
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">Login</button>
   </form>
 
-  <!-- Idea List -->
-  <div id="ideaList" class="mt-4">
-    <!-- Ideas will be dynamically added here -->
-  </div>
-</div>
+  <script>
+    const loginForm = document.getElementById('loginForm');
 
-<script>
-  $(document).ready(function() {
-    // Retrieve ideas from localStorage
-    var ideas = JSON.parse(localStorage.getItem('ideas')) || [];
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
 
-    // Check if the user has already voted
-    var hasVoted = localStorage.getItem('voted');
-    if (hasVoted) {
-      // Disable voting buttons if the user has already voted
-      $('.vote-btn').prop('disabled', true);
-    }
+      const email = loginForm.email.value;
+      const password = loginForm.password.value;
 
-    // Function to display ideas
-    function displayIdeas() {
-      $('#ideaList').empty(); // Clear previous ideas
-
-      // Sort ideas based on votes (descending)
-      ideas.sort((a, b) => b.votes - a.votes);
-
-      // Display each idea
-      ideas.forEach(function(idea) {
-        var $idea = $('<div class="idea">').html(idea.text + ' - <strong>' + idea.votes + ' votes</strong>');
-        var $voteBtn = $('<button type="button" class="btn btn-sm btn-success vote-btn">Vote</button>');
-        $voteBtn.click(function() {
-          voteForIdea(idea); // Call voteForIdea function when button is clicked
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Redirect or perform any actions upon successful login
+          console.log('Successfully logged in:', userCredential.user);
+        })
+        .catch((error) => {
+          console.error('Login error:', error.message);
         });
-        $idea.append($voteBtn);
-        $('#ideaList').append($idea);
-      });
-    }
-
-    // Function to handle idea submission
-    $('#ideaForm').submit(function(event) {
-      event.preventDefault(); // Prevent form submission
-
-      var ideaText = $('#ideaInput').val().trim(); // Get idea text
-      if (ideaText !== '') {
-        // Create new idea object
-        var newIdea = {
-          text: ideaText,
-          votes: 0
-        };
-
-        ideas.push(newIdea); // Add idea to array
-        saveIdeasToLocalStorage(); // Save ideas to localStorage
-        displayIdeas(); // Update display
-        $('#ideaInput').val(''); // Clear input field
-      }
     });
-
-    // Function to handle voting for an idea
-    function voteForIdea(idea) {
-      idea.votes++; // Increment votes for the idea
-      saveIdeasToLocalStorage(); // Save ideas to localStorage
-      displayIdeas(); // Update display
-
-      // Store in browser that user has voted
-      localStorage.setItem('voted', 'true');
-
-      // Disable voting buttons
-      $('.vote-btn').prop('disabled', true);
-    }
-
-    // Function to save ideas to localStorage
-    function saveIdeasToLocalStorage() {
-      localStorage.setItem('ideas', JSON.stringify(ideas));
-    }
-
-    // Initial display
-    displayIdeas();
-  });
-</script>
-
+  </script>
 </body>
 </html>
