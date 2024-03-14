@@ -41,6 +41,12 @@
           document.getElementById('loginError').innerText = errorMessage;
         });
     }
+
+    // Add event listener to the login button
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginButton = document.getElementById('loginButton');
+      loginButton.addEventListener('click', loginUser);
+    });
   </script>
   <style>
     body {
@@ -108,7 +114,7 @@
         <label for="password">Password</label>
         <input type="password" id="password" placeholder="Password">
       </div>
-      <button type="button" onclick="loginUser()">Login</button>
+      <button type="button" id="loginButton">Login</button>
     </form>
     <!-- Display login error message -->
     <p id="loginError" class="error-message"></p>
@@ -118,7 +124,7 @@
 
   <!-- Footer for version tracking -->
   <div class="footer">
-    <p>Version 1.0.12</p>
+    <p>Version 1.0.0</p>
   </div>
 </body>
 </html>
