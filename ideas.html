@@ -278,13 +278,12 @@
   // Display initial set of ideas
   displayIdeas();
 
-  // Listen for authentication state changes
   onAuthStateChanged(auth, (user) => {
-    displayUserInfo(user);
-    if (!user) {
-      window.location.href = "https://camaswalkcommunity.github.io";
-    }
-  });
+  displayUserInfo(user);
+  if (!user && window.location.pathname !== 'https://camaswalkcommunity.github.io') {
+    window.location.href = "https://camaswalkcommunity.github.io";
+  }
+});
 </script>
 
 </body>
