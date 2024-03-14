@@ -90,14 +90,16 @@
   <h1>Registration Page</h1>
   <!-- Registration form -->
   <form id="registrationForm">
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email"><br>
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password"><br>
     <label for="firstName">First Name:</label><br>
-    <input type="text" id="firstName" name="firstName"><br>
-    <label for="lastName">Last Name:</label><br>
-    <input type="text" id="lastName" name="lastName"><br>
+    <input type="text" id="firstName" name="firstName" required><br>
+    <label for="lastName">Surname:</label><br>
+    <input type="text" id="lastName" name="lastName" required><br>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br>
+    <label for="confirmPassword">Confirm Password:</label><br>
+    <input type="password" id="confirmPassword" name="confirmPassword" required><br>
     <button type="submit">Register</button>
   </form>
 
@@ -110,12 +112,12 @@
 
   <!-- Footer with version label -->
   <footer>
-    <p>Version: 1.0.12</p>
+    <p>Version: 1.0.13</p>
   </footer>
 
   <!-- Firebase SDK -->
   <script type="module">
-    // Import the functions you need from the SDKs you need
+    // Firebase SDK imports and initialization
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
     import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
@@ -159,6 +161,13 @@
         const password = document.getElementById('password').value;
         const firstName = document.getElementById('firstName').value;
         const lastName = document.getElementById('lastName').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        // Validate password confirmation
+        if (password !== confirmPassword) {
+          alert("Passwords do not match!");
+          return;
+        }
 
         try {
           const userCredential = await createUserWithEmailAndPassword(auth, email, password);
