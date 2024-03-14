@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Page</title>
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js"></script>
   <style>
@@ -76,7 +77,7 @@
 
   <!-- Footer for version tracking -->
   <div class="footer">
-    <p>Version 1.0.6</p>
+    <p>Version 1.0.7</p>
   </div>
 
   <script>
@@ -102,7 +103,7 @@
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
           // Redirect user to a webpage on successful login
-          window.location.href = "https://camaswalkcommunity.github.io/ideas.html";
+          window.location.href = "dashboard.html";
         })
         .catch((error) => {
           // Handle login errors
