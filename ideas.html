@@ -196,31 +196,36 @@
     }
   });
 
-  // Function to handle idea voting
-  function voteForIdea(ideaId) {
-    runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
+  // Function to handle voting for an idea
+function voteForIdea(ideaId) {
+  const user = auth.currentUser;
+  if (user) {
+    const userId = user.uid;
+    const ideaRef = ref(database, `ideas/${ideaId}`);
+    runTransaction(ideaRef, (idea) => {
       if (idea) {
-        const user = auth.currentUser;
-        if (user) {
-          const userId = user.uid;
-          if (!idea.likedBy) {
-            idea.likedBy = []; // Initialize likedBy if it doesn't exist
-          }
-          // Check if the user has already voted for the idea
-          if (!idea.likedBy.includes(userId)) {
-            // Update the idea data
-            idea.votes++;
-            idea.likedBy.push(userId); // Add user ID to likedBy array
-          } else {
-            console.log("You have already voted for this idea.");
-          }
+        if (!idea.likedBy) {
+          idea.likedBy = []; // Initialize likedBy if it doesn't exist
         }
-      } else {
-        console.log("Idea is undefined.");
+        // Check if the user has already voted for the idea
+        if (!idea.likedBy.includes(userId)) {
+          // Update the idea data
+          idea.votes++;
+          idea.likedBy.push(userId); // Add user ID to likedBy array
+        } else {
+          console.log("You have already voted for this idea.");
+        }
       }
       return idea;
+    }).then(() => {
+      console.log("Vote successful.");
+    }).catch((error) => {
+      console.error("Vote transaction failed:", error);
     });
+  } else {
+    console.log("User not logged in.");
   }
+}
 
   // Listen for authentication state changes
   onAuthStateChanged(auth, (user) => {
