@@ -25,7 +25,7 @@
     const auth = getAuth(app);
 
     // Function to handle login
-    window.loginUser = function() {
+    function loginUser() {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
@@ -38,7 +38,7 @@
           // Handle login errors
           const errorCode = error.code;
           const errorMessage = error.message;
-          alert(errorMessage);
+          document.getElementById('loginError').innerText = errorMessage;
         });
     }
   </script>
@@ -88,6 +88,10 @@
       margin-top: 20px; /* Adjust distance between form and footer */
       text-align: center;
     }
+    .error-message {
+      color: red;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -106,13 +110,15 @@
       </div>
       <button type="button" onclick="loginUser()">Login</button>
     </form>
+    <!-- Display login error message -->
+    <p id="loginError" class="error-message"></p>
     <!-- Registration link -->
     <p style="text-align: center; margin-top: 20px;">Don't have an account? <a href="registration.html">Register here</a></p>
   </div>
 
   <!-- Footer for version tracking -->
   <div class="footer">
-    <p>Version 1.011</p>
+    <p>Version 1.0.0</p>
   </div>
 </body>
 </html>
