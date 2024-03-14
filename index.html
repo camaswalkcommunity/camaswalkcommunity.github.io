@@ -25,14 +25,14 @@
     const auth = getAuth(app);
 
     // Function to handle login
-    function loginUser() {
+    window.loginUser = function() {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Redirect user to a webpage on successful login
-          window.location.href = "https://camaswalkcommunity.github.io/ideas.html";
+          window.location.href = "dashboard.html";
         })
         .catch((error) => {
           // Handle login errors
@@ -112,7 +112,7 @@
 
   <!-- Footer for version tracking -->
   <div class="footer">
-    <p>Version 1.0.10</p>
+    <p>Version 1.011</p>
   </div>
 </body>
 </html>
