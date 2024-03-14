@@ -4,39 +4,117 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Community Initiative</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    #ideaInput {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    #submitIdeaBtn {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #submitIdeaBtn:hover {
+      background-color: #0056b3;
+    }
+
+    .idea-card {
+      background-color: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .idea-card p {
+      margin: 0 0 10px;
+    }
+
+    .vote-btn {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .vote-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container mt-5">
-  <h1 class="mb-4">Community Initiative</h1>
+<div class="container">
+  <h1>Community Initiative</h1>
 
   <!-- Idea Submission Form -->
   <form id="ideaForm">
     <div class="form-group">
       <label for="ideaInput">Submit your idea:</label>
-      <input type="text" class="form-control" id="ideaInput" placeholder="Enter your idea">
+      <input type="text" id="ideaInput" placeholder="Enter your idea">
     </div>
     <button type="submit" id="submitIdeaBtn">Submit</button>
   </form>
 
   <!-- Idea Gallery -->
-  <div id="ideaGallery" class="mt-5">
-    <!-- Ideas will be dynamically added here -->
-  </div>
+  <div id="ideaGallery"></div>
 </div>
 
-<footer class="footer mt-5">
-  <div class="container">
-    <p>Version 1.0</p>
-  </div>
+<footer class="footer">
+  <p>Version 1.12</p>
 </footer>
 
-<script type="module">
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js"></script>
+<script>
   // Firebase configuration
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
-  import { getAuth } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
-  import { getDatabase, ref, push, set, update, increment, get } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
-
   const firebaseConfig = {
     apiKey: "AIzaSyDn0L5eNhnsCkoNIl1xqXC1vAc9RgD3fxQ",
     authDomain: "camaswalkcommunity-e51e0.firebaseapp.com",
@@ -47,140 +125,83 @@
     measurementId: "G-XQ35VWDWFD"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const database = getDatabase();
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
 
-  // Function to handle voting for an idea
-  function voteForIdea(ideaId, userId) {
-    const ideaRef = ref(database, `ideas/${ideaId}`);
-    const likedByRef = ref(ideaRef, 'likedBy');
+  const database = firebase.database();
 
-    // Check if the user has already voted for this idea
-    get(likedByRef).then((snapshot) => {
-      const likedBy = snapshot.val() || [];
-      if (!likedBy.includes(userId)) { // If user hasn't already voted
-        update(ideaRef, {
-          votes: increment(1),
-          likedBy: [...likedBy, userId] // Add user to likedBy array
-        });
-      } else {
-        console.log("You have already voted for this idea.");
-      }
-    }).catch((error) => {
-      console.error("Error checking likedBy array:", error);
+  // Function to save idea to Firebase database
+  function saveIdeaToFirebase(ideaText, displayName) {
+    const newIdeaRef = database.ref('ideas').push();
+    newIdeaRef.set({
+      text: ideaText,
+      displayName: displayName,
+      votes: 0,
+      likedBy: []
     });
   }
 
-  // Function to display ideas
+  // Function to display ideas from Firebase database
   function displayIdeas() {
     const ideaGallery = document.getElementById('ideaGallery');
-    ideaGallery.innerHTML = ''; // Clear previous ideas
+    ideaGallery.innerHTML = ''; // Clear existing content
 
-    // Reference to the "ideas" node
-    const ideasRef = ref(database, 'ideas');
-
-    // Retrieve and display ideas
-    get(ideasRef).then((snapshot) => {
-      const ideas = snapshot.val();
-      if (ideas) {
-        Object.entries(ideas).forEach(([ideaId, idea]) => {
-          const ideaCard = document.createElement('div');
-          ideaCard.classList.add('idea-card');
-          ideaCard.innerHTML = `
-            <p>${idea.text}</p>
-            <p>Submitted by: ${idea.displayName}</p>
-            <p>Votes: ${idea.votes}</p>
-            <button class="vote-btn" data-idea-id="${ideaId}">Vote</button>
-          `;
-          ideaCard.querySelector('.vote-btn').addEventListener('click', () => {
-            const user = auth.currentUser;
-            if (user) {
-              const userId = user.uid;
-              voteForIdea(ideaId, userId);
-            } else {
-              console.log("You need to be logged in to vote.");
-            }
-          });
-          ideaGallery.appendChild(ideaCard);
+    database.ref('ideas').once('value', (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const idea = childSnapshot.val();
+        const ideaCard = document.createElement('div');
+        ideaCard.classList.add('idea-card');
+        const ideaText = document.createElement('p');
+        ideaText.textContent = `Idea: ${idea.text}`;
+        const displayName = document.createElement('p');
+        displayName.textContent = `Submitted by: ${idea.displayName}`;
+        const votes = document.createElement('p');
+        votes.textContent = `Votes: ${idea.votes}`;
+        const voteButton = document.createElement('button');
+        voteButton.textContent = 'Vote';
+        voteButton.classList.add('vote-btn');
+        voteButton.addEventListener('click', () => {
+          voteForIdea(childSnapshot.key);
         });
-      } else {
-        console.log("No ideas found.");
-      }
-    }).catch((error) => {
-      console.error("Error retrieving ideas:", error);
+
+        ideaCard.appendChild(ideaText);
+        ideaCard.appendChild(displayName);
+        ideaCard.appendChild(votes);
+        ideaCard.appendChild(voteButton);
+        ideaGallery.appendChild(ideaCard);
+      });
     });
   }
 
   // Function to handle idea submission
-  document.getElementById('ideaForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form submission
-
-    const ideaText = document.getElementById('ideaInput').value.trim(); // Get idea text
+  document.getElementById('ideaForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const ideaInput = document.getElementById('ideaInput');
+    const ideaText = ideaInput.value.trim();
+    const displayName = "John Doe"; // Replace with user's display name if available
     if (ideaText !== '') {
-      const user = auth.currentUser;
-      if (user) {
-        const userId = user.uid;
-        submitIdea(ideaText, userId);
-      } else {
-        console.log("You need to be logged in to submit an idea.");
-      }
-
-      document.getElementById('ideaInput').value = ''; // Clear input field
+      saveIdeaToFirebase(ideaText, displayName);
+      ideaInput.value = ''; // Clear input field after submission
+      displayIdeas(); // Update displayed ideas
     }
   });
 
-  // Function to submit an idea to Firebase Realtime Database
-  function submitIdea(ideaText, userId) {
-    const ideasRef = ref(database, 'ideas'); // Reference to the "ideas" node
-    const newIdeaRef = push(ideasRef); // Generate a unique key for the new idea
-    set(newIdeaRef, { // Set the data for the new idea
-      text: ideaText,
-      displayName: userId, // Assuming you store the user's display name as the UID
-      votes: 0,
-      likedBy: [] // Initialize likedBy array
-    }).then(() => {
-      console.log("Idea submitted successfully.");
-      displayIdeas(); // Refresh idea gallery after submission
-    }).catch((error) => {
-      console.error("Error submitting idea:", error);
+  // Function to vote for an idea
+  function voteForIdea(ideaId) {
+    const ideaRef = database.ref(`ideas/${ideaId}`);
+    ideaRef.transaction((idea) => {
+      if (idea) {
+        if (!idea.likedBy.includes('John Doe')) { // Replace 'John Doe' with user's display name if available
+          idea.votes++;
+          idea.likedBy.push('John Doe'); // Replace 'John Doe' with user's display name if available
+        } else {
+          console.log("You have already voted for this idea.");
+        }
+      }
+      return idea;
     });
   }
 
-  // Check if the user has already submitted an idea
-  function hasUserSubmittedIdea(userId) {
-    const ideasRef = ref(database, 'ideas');
-    return get(ideasRef).then((snapshot) => {
-      const ideas = snapshot.val();
-      if (ideas) {
-        return Object.values(ideas).some(idea => idea.displayName === userId);
-      } else {
-        return false;
-      }
-    }).catch((error) => {
-      console.error("Error checking if user has submitted an idea:", error);
-      return false;
-    });
-  }
-
-  // Check if the user has already submitted an idea
-  const user = auth.currentUser;
-  if (user) {
-    const userId = user.uid;
-    hasUserSubmittedIdea(userId).then((hasSubmitted) => {
-      if (!hasSubmitted) {
-        // Enable idea submission form
-        document.getElementById('submitIdeaBtn').disabled = false;
-      } else {
-        console.log("You have already submitted an idea.");
-        // Disable idea submission form
-        document.getElementById('submitIdeaBtn').disabled = true;
-      }
-    }).catch((error) => {
-      console.error("Error checking if user has submitted an idea:", error);
-    });
-  }
-  
   // Display initial set of ideas
   displayIdeas();
 </script>
