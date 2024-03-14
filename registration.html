@@ -27,11 +27,6 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     const auth = getAuth();
-
-    // Check if createUserWithEmailAndPassword function is defined
-    if (typeof createUserWithEmailAndPassword !== "function") {
-      console.error("createUserWithEmailAndPassword is not defined");
-    }
   </script>
 </head>
 <body>
@@ -45,34 +40,40 @@
     <button type="submit">Register</button>
   </form>
 
-  <!-- Your custom JavaScript (for handling registration logic) -->
-  <script>
-    const registrationForm = document.getElementById('registrationForm');
-    registrationForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        // User registered successfully
-        const user = userCredential.user;
-        console.log('User registered:', user);
-        // Additional actions like saving user profile data can be performed here
-      } catch (error) {
-        // Handle errors
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error('Registration error:', errorMessage);
-        // Display error message to the user
-      }
-    });
-  </script>
-
   <!-- Footer with version label -->
   <footer>
-    <p>Version: 1.0.5</p>
+    <p>Version: 1.0.0</p>
+  </footer>
+
+  <!-- Your custom JavaScript (for handling registration logic) -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const registrationForm = document.getElementById('registrationForm');
+      registrationForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        try {
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          // User registered successfully
+          const user = userCredential.user;
+          console.log('User registered:', user);
+          // Additional actions like saving user profile data can be performed here
+        } catch (error) {
+          // Handle errors
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.error('Registration error:', errorMessage);
+          // Display error message to the user
+        }
+      });
+    });
+  </script>
+  <!-- Footer with version label -->
+  <footer>
+    <p>Version: 1.0.6</p>
   </footer>
 </body>
 </html>
