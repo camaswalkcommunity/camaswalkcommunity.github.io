@@ -6,105 +6,63 @@
   <title>Registration Page</title>
   <!-- Firebase SDK -->
   <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-   const firebaseConfig = {
-  apiKey: "AIzaSyDn0L5eNhnsCkoNIl1xqXC1vAc9RgD3fxQ",
-  authDomain: "camaswalkcommunity-e51e0.firebaseapp.com",
-  projectId: "camaswalkcommunity-e51e0",
-  storageBucket: "camaswalkcommunity-e51e0.appspot.com",
-  messagingSenderId: "761814884837",
-  appId: "1:761814884837:web:833d652b181df6e118cf0c",
-  measurementId: "G-XQ35VWDWFD"
-};
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDn0L5eNhnsCkoNIl1xqXC1vAc9RgD3fxQ",
+    authDomain: "camaswalkcommunity-e51e0.firebaseapp.com",
+    projectId: "camaswalkcommunity-e51e0",
+    storageBucket: "camaswalkcommunity-e51e0.appspot.com",
+    messagingSenderId: "761814884837",
+    appId: "1:761814884837:web:833d652b181df6e118cf0c",
+    measurementId: "G-XQ35VWDWFD"
+  };
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     const auth = getAuth();
   </script>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Your custom styles -->
-  <style>
-    body {
-      background-color: #f8f9fa;
-    }
-    .container {
-      margin-top: 100px;
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    button[type="submit"] {
-      width: 100%;
-    }
-  </style>
 </head>
 <body>
-  <div class="container">
-    <h1 class="text-center">Registration Page</h1>
-    <!-- Your registration form goes here -->
-    <form id="registrationForm">
-      <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter email">
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Password">
-      </div>
-      <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input type="text" class="form-control" id="firstName" placeholder="Enter your first name">
-      </div>
-      <div class="form-group">
-        <label for="surname">Surname</label>
-        <input type="text" class="form-control" id="surname" placeholder="Enter your surname">
-      </div>
-      <div class="form-group">
-        <label for="postcode">Postcode</label>
-        <input type="text" class="form-control" id="postcode" placeholder="Enter your postcode">
-      </div>
-      <button type="submit" class="btn btn-primary">Register</button>
-    </form>
-  </div>
-
-  <!-- Bootstrap JS (optional, if needed) -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <h1>Registration Page</h1>
+  <!-- Registration form -->
+  <form id="registrationForm">
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email"><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password"><br>
+    <button type="submit">Register</button>
+  </form>
 
   <!-- Your custom JavaScript (for handling registration logic) -->
   <script>
     const registrationForm = document.getElementById('registrationForm');
-    registrationForm.addEventListener('submit', (e) => {
+    registrationForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
-      const firstName = document.getElementById('firstName').value;
-      const surname = document.getElementById('surname').value;
-      const postcode = document.getElementById('postcode').value;
       
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // User registered successfully
-          const user = userCredential.user;
-          console.log('User registered:', user);
-          // Additional actions like saving user profile data can be performed here
-        })
-        .catch((error) => {
-          // Handle errors
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.error('Registration error:', errorMessage);
-          // Display error message to the user
-        });
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        // User registered successfully
+        const user = userCredential.user;
+        console.log('User registered:', user);
+        // Additional actions like saving user profile data can be performed here
+      } catch (error) {
+        // Handle errors
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error('Registration error:', errorMessage);
+        // Display error message to the user
+      }
     });
   </script>
 </body>
