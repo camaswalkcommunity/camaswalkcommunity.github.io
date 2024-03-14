@@ -115,7 +115,7 @@
 </div>
 
 <footer class="footer">
-  <p>Version 1.40</p>
+  <p>Version 1.41</p>
 </footer>
 
 <script type="module">
@@ -204,13 +204,20 @@ function saveIdeaToFirebase(ideaText, displayName) {
       const user = auth.currentUser;
       if (user) {
         const userId = user.uid;
-        if (!idea.likedBy.includes(userId)) {
+        // Check if the idea has already been liked by the user
+        if (idea.likedBy && !idea.likedBy.includes(userId)) {
+          // Update the idea data
           idea.votes++;
+          if (!idea.likedBy) {
+            idea.likedBy = [];
+          }
           idea.likedBy.push(userId);
         } else {
           console.log("You have already voted for this idea.");
         }
       }
+    } else {
+      console.log("Idea is undefined.");
     }
     return idea;
   });
