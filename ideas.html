@@ -22,7 +22,7 @@
 
 <footer class="footer mt-5">
   <div class="container">
-    <p>Version 1.2</p>
+    <p>Version 1.4</p>
   </div>
 </footer>
 
@@ -30,7 +30,7 @@
   // Firebase configuration
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
   import { getAuth } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
-  import { getDatabase, ref } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
+  import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDn0L5eNhnsCkoNIl1xqXC1vAc9RgD3fxQ",
@@ -46,13 +46,11 @@
   const auth = getAuth(app);
   const database = getDatabase();
 
-  // Get a reference to the 'ideas' node in the database
-  const ideasRef = ref(database, 'ideas');
-
   // Function to save an idea to Firebase Realtime Database
   function saveIdeaToFirebase(ideaText, displayName) {
-    const newIdeaRef = push(ideasRef); // Create a new unique reference for the idea within 'ideas' node
-    set(newIdeaRef, {
+    const ideasRef = ref(database, 'ideas'); // Reference to the "ideas" node
+    const newIdeaRef = push(ideasRef); // Generate a unique key for the new idea
+    set(newIdeaRef, { // Set the data for the new idea
       text: ideaText,
       displayName: displayName,
       votes: 0
