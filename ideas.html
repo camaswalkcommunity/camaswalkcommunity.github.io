@@ -115,7 +115,7 @@
 </div>
 
 <footer class="footer">
-  <p>Version 1.0</p>
+  <p>Version 1.40</p>
 </footer>
 
 <script type="module">
@@ -198,25 +198,24 @@ function saveIdeaToFirebase(ideaText, displayName) {
     }
   });
 
-  // Function to vote for an idea
   function voteForIdea(ideaId) {
-    runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
-      if (idea) {
-        const user = auth.currentUser;
-        if (user) {
-          const userId = user.uid;
-          if (!idea.likedBy.includes(userId)) {
-            idea.votes++;
-            idea.likedBy.push(userId);
-          } else {
-            console.log("You have already voted for this idea.");
-          }
+  runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
+    if (idea) {
+      const user = auth.currentUser;
+      if (user) {
+        const userId = user.uid;
+        if (!idea.likedBy.includes(userId)) {
+          idea.votes++;
+          idea.likedBy.push(userId);
+        } else {
+          console.log("You have already voted for this idea.");
         }
       }
-      return idea;
-    });
-  }
-
+    }
+    return idea;
+  });
+}
+  
   // Display initial set of ideas
   displayIdeas();
 
