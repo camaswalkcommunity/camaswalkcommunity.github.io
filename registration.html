@@ -93,7 +93,28 @@
 
   <!-- Footer with version label -->
   <footer>
-    <p>Version: 1.0.9</p>
+    <p>Version: 1.0.10</p>
   </footer>
+
+<script>
+    // Function to show registration success message and button
+    function showRegistrationSuccess() {
+      document.getElementById('registrationForm').style.display = 'none';
+      document.getElementById('registrationSuccess').style.display = 'block';
+    }
+
+    // Function to navigate to login page
+    function navigateToLoginPage() {
+      // Assuming your login page URL is 'login.html'
+      window.location.href = 'login.html';
+    }
+
+    // Function to handle form submission
+    function handleRegistrationForm() {
+      // Your registration form submission logic
+      // Ensure to call showRegistrationSuccess() on successful registration
+    }
+  </script>
+  
 </body>
 </html>
