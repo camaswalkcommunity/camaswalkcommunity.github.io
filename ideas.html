@@ -27,11 +27,12 @@
 </div>
 
 <footer class="footer">
-  <p>Version 1.3</p>
+  <p>Version 1.0</p>
 </footer>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
   import { getDatabase, ref, push, set, runTransaction, onValue } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js";
 
   // Firebase configuration
@@ -48,6 +49,7 @@
   // Initialize Firebase
   const firebaseApp = initializeApp(firebaseConfig);
   const database = getDatabase(firebaseApp);
+  const auth = getAuth();
 
   // Function to save idea to Firebase database
   function saveIdeaToFirebase(ideaText, displayName) {
@@ -97,8 +99,9 @@
     e.preventDefault();
     const ideaInput = document.getElementById('ideaInput');
     const ideaText = ideaInput.value.trim();
-    const displayName = "John Doe"; // Replace with user's display name if available
-    if (ideaText !== '') {
+    const user = auth.currentUser;
+    if (user && ideaText !== '') {
+      const displayName = user.displayName || 'Anonymous';
       saveIdeaToFirebase(ideaText, displayName);
       ideaInput.value = ''; // Clear input field after submission
       displayIdeas(); // Update displayed ideas
@@ -109,11 +112,15 @@
   function voteForIdea(ideaId) {
     runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
       if (idea) {
-        if (!idea.likedBy.includes('John Doe')) { // Replace 'John Doe' with user's display name if available
-          idea.votes++;
-          idea.likedBy.push('John Doe'); // Replace 'John Doe' with user's display name if available
-        } else {
-          console.log("You have already voted for this idea.");
+        const user = auth.currentUser;
+        if (user) {
+          const userId = user.uid;
+          if (!idea.likedBy.includes(userId)) {
+            idea.votes++;
+            idea.likedBy.push(userId);
+          } else {
+            console.log("You have already voted for this idea.");
+          }
         }
       }
       return idea;
@@ -122,6 +129,15 @@
 
   // Display initial set of ideas
   displayIdeas();
+
+  // Listen for authentication state changes
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log('User is logged in:', user.displayName);
+    } else {
+      console.log('User is logged out');
+    }
+  });
 </script>
 
 </body>
