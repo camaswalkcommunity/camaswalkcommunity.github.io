@@ -7,7 +7,7 @@
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
     // Firebase configuration
     const firebaseConfig = {
@@ -41,6 +41,17 @@
           document.getElementById('loginError').innerText = errorMessage;
         });
     }
+
+    // Add session persistence configuration
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log('User is logged in:', user.displayName);
+      } else {
+        console.log('User is logged out');
+        // Redirect user to login page if logged out
+        window.location.href = "login.html";
+      }
+    });
 
     // Add event listener to the login button
     document.addEventListener('DOMContentLoaded', function() {
