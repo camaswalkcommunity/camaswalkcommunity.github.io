@@ -140,15 +140,17 @@
   const auth = getAuth();
 
   // Function to save idea to Firebase database
-  function saveIdeaToFirebase(ideaText, displayName) {
-    const newIdeaRef = push(ref(database, 'ideas'));
-    set(newIdeaRef, {
-      text: ideaText,
-      displayName: displayName,
-      votes: 0,
-      likedBy: []
-    });
-  }
+function saveIdeaToFirebase(ideaText, displayName) {
+  const newIdeaRef = push(ref(database, 'ideas'));
+  const ideaData = {
+    text: ideaText,
+    displayName: displayName,
+    votes: 0,
+    likedBy: [] // Initialize likedBy as an empty array
+  };
+  console.log("Data to be saved:", ideaData); // Log the data
+  set(newIdeaRef, ideaData);
+}
 
   // Function to display ideas from Firebase database
   function displayIdeas() {
