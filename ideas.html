@@ -211,44 +211,44 @@
     });
   }
 
-  // Function to handle idea submission
-  document.getElementById('ideaForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const ideaInput = document.getElementById('ideaInput');
-    const ideaText = ideaInput.value.trim();
-    const user = auth.currentUser;
-    if (user && ideaText !== '') {
-      const displayName = user.displayName || 'Anonymous';
-      saveIdeaToFirebase(ideaText, displayName);
-      ideaInput.value = ''; // Clear input field after submission
-      displayIdeas(); // Update displayed ideas
-    }
-  });
+   // Function to handle idea submission
+document.getElementById('ideaForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const ideaInput = document.getElementById('ideaInput');
+  const ideaText = ideaInput.value.trim();
+  const user = auth.currentUser;
+  if (user && ideaText !== '') {
+    const displayName = user.displayName || 'Anonymous';
+    saveIdeaToFirebase(ideaText, displayName);
+    ideaInput.value = ''; // Clear input field after submission
+    displayIdeas(); // Update displayed ideas
+  }
+});
 
   // Function to handle voting for an idea
-  function voteForIdea(ideaId) {
-    runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
-      if (idea) {
-        const user = auth.currentUser;
-        if (user) {
-          const userId = user.uid;
-          if (!idea.likedBy) {
-            idea.likedBy = [];
-          }
-          if (!idea.likedBy.includes(userId)) {
-            idea.votes++;
-            idea.likedBy.push(userId);
-          } else {
-            console.log("You have already voted for this idea.");
-          }
+function voteForIdea(ideaId) {
+  runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
+    if (idea) {
+      const user = auth.currentUser;
+      if (user) {
+        const userId = user.uid;
+        if (!idea.likedBy) {
+          idea.likedBy = [];
         }
-      } else {
-        console.log("Idea is undefined.");
+        if (!idea.likedBy.includes(userId)) {
+          idea.votes++;
+          idea.likedBy.push(userId);
+        } else {
+          console.log("You have already voted for this idea.");
+        }
       }
-      return idea;
-    });
-  }
-
+    } else {
+      console.log("Idea is undefined.");
+    }
+    return idea;
+  });
+}
+  
   // Function to display user info
   function displayUserInfo(user) {
     const userInfo = document.getElementById('userInfo');
