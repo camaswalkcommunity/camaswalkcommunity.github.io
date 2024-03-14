@@ -115,7 +115,7 @@
 </div>
 
 <footer class="footer">
-  <p>Version 1.41</p>
+  <p>Version 1.42</p>
 </footer>
 
 <script type="module">
@@ -142,14 +142,12 @@
   // Function to save idea to Firebase database
 function saveIdeaToFirebase(ideaText, displayName) {
   const newIdeaRef = push(ref(database, 'ideas'));
-  const ideaData = {
+  set(newIdeaRef, {
     text: ideaText,
     displayName: displayName,
     votes: 0,
-    likedBy: [] // Initialize likedBy as an empty array
-  };
-  console.log("Data to be saved:", ideaData); // Log the data
-  set(newIdeaRef, ideaData);
+    likedBy: ['nobody'] // Initialize likedBy with 'nobody'
+  });
 }
 
   // Function to display ideas from Firebase database
@@ -204,14 +202,14 @@ function saveIdeaToFirebase(ideaText, displayName) {
       const user = auth.currentUser;
       if (user) {
         const userId = user.uid;
-        // Check if the idea has already been liked by the user
-        if (idea.likedBy && !idea.likedBy.includes(userId)) {
+        if (!idea.likedBy) {
+          idea.likedBy = []; // Initialize likedBy if it doesn't exist
+        }
+        // Check if the user has already voted for the idea
+        if (!idea.likedBy.includes(userId)) {
           // Update the idea data
           idea.votes++;
-          if (!idea.likedBy) {
-            idea.likedBy = [];
-          }
-          idea.likedBy.push(userId);
+          idea.likedBy.push(userId); // Add user ID to likedBy array
         } else {
           console.log("You have already voted for this idea.");
         }
