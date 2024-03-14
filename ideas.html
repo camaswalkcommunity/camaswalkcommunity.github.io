@@ -22,7 +22,7 @@
 
 <footer class="footer mt-5">
   <div class="container">
-    <p>Version 1.0</p>
+    <p>Version 1.1</p>
   </div>
 </footer>
 
@@ -30,7 +30,7 @@
   // Firebase configuration
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
   import { getAuth } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
-  import { getDatabase } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
+  import { getDatabase, ref } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDn0L5eNhnsCkoNIl1xqXC1vAc9RgD3fxQ",
@@ -44,12 +44,15 @@
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const database = getDatabase(app);
+  const database = getDatabase();
+
+  // Get a reference to the 'ideas' node in the database
+  const ideasRef = ref(database, 'https://camaswalkcommunity-e51e0-default-rtdb.firebaseio.com/');
 
   // Function to save an idea to Firebase Realtime Database
   function saveIdeaToFirebase(ideaText, displayName) {
-    const newIdeaRef = database.ref('ideas').push(); // Create a new unique reference for the idea
-    newIdeaRef.set({
+    const newIdeaRef = push(ideasRef); // Create a new unique reference for the idea within 'ideas' node
+    set(newIdeaRef, {
       text: ideaText,
       displayName: displayName,
       votes: 0
