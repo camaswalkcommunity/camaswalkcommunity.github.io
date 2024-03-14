@@ -115,7 +115,7 @@
 </div>
 
 <footer class="footer">
-  <p>Version 1.42</p>
+  <p>Version 1.43</p>
 </footer>
 
 <script type="module">
@@ -220,9 +220,6 @@ function saveIdeaToFirebase(ideaText, displayName) {
     return idea;
   });
 }
-  
-  // Display initial set of ideas
-  displayIdeas();
 
   // Listen for authentication state changes
   onAuthStateChanged(auth, (user) => {
@@ -232,6 +229,10 @@ function saveIdeaToFirebase(ideaText, displayName) {
       console.log('User is logged out');
     }
   });
+
+    // Display initial set of ideas
+  displayIdeas();
+  
 </script>
 
 </body>
