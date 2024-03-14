@@ -4,56 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Page</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js"></script>
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+    apiKey: "AIzaSyDn0L5eNhnsCkoNIl1xqXC1vAc9RgD3fxQ",
+    authDomain: "camaswalkcommunity-e51e0.firebaseapp.com",
+    projectId: "camaswalkcommunity-e51e0",
+    storageBucket: "camaswalkcommunity-e51e0.appspot.com",
+    messagingSenderId: "761814884837",
+    appId: "1:761814884837:web:833d652b181df6e118cf0c",
+    measurementId: "G-XQ35VWDWFD"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Function to handle login
+    function loginUser() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Redirect user to a webpage on successful login
+          window.location.href = "dashboard.html";
+        })
+        .catch((error) => {
+          // Handle login errors
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          alert(errorMessage);
+        });
     }
-    .container {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    button[type="submit"] {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      background-color: #007bff;
-      color: #fff;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button[type="submit"]:hover {
-      background-color: #0056b3;
-    }
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-    .footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      padding: 10px 0;
-    }
-  </style>
+  </script>
 </head>
 <body>
   <div class="container">
@@ -68,7 +53,7 @@
         <label for="password">Password</label>
         <input type="password" id="password" placeholder="Password">
       </div>
-      <button type="submit">Login</button>
+      <button type="button" onclick="loginUser()">Login</button>
     </form>
     <!-- Registration link -->
     <p style="text-align: center; margin-top: 20px;">Don't have an account? <a href="registration.html">Register here</a></p>
@@ -76,12 +61,7 @@
 
   <!-- Footer for version tracking -->
   <div class="footer">
-    <p>Version 1.0.1</p>
+    <p>Version 1.0.2</p>
   </div>
-
-  <!-- Your custom JavaScript (for handling login logic) -->
-  <script>
-    // Add your custom JavaScript code here to handle login logic using Firebase Authentication
-  </script>
 </body>
 </html>
