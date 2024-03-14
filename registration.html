@@ -104,6 +104,14 @@
     <button type="submit">Register</button>
   </form>
 
+<script>
+  // Function to navigate to login page
+    function navigateToLoginPage() {
+      // Navigate to your login page URL
+      window.location.href = 'camaswalkcommunity.github.io';
+    }
+</script>
+  
   <!-- Success message and button -->
   <div id="registrationSuccess">
     <p>Registration successful!</p>
@@ -113,7 +121,7 @@
 
   <!-- Footer with version label -->
   <footer>
-    <p>Version: 1.0.22</p>
+    <p>Version: 1.0.19</p>
   </footer>
 
   <!-- Firebase SDK -->
@@ -138,12 +146,6 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     const auth = getAuth();
-
-    // Function to navigate to login page
-    function navigateToLoginPage() {
-      // Navigate to your login page URL
-      window.location.href = 'camaswalkcommunity.github.io';
-    }
 
     // Function to show registration success message and button
     function showRegistrationSuccess() {
