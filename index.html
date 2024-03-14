@@ -13,8 +13,9 @@
       height: 100vh;
       margin: 0;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
     }
     .container {
       background-color: #fff;
@@ -22,6 +23,7 @@
       border-radius: 10px;
       box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
       width: 400px;
+      margin-top: 20px; /* Adjust distance between banner and form */
     }
     .form-group {
       margin-bottom: 20px;
@@ -47,13 +49,13 @@
       box-sizing: border-box;
     }
     .footer {
+      margin-top: 20px; /* Adjust distance between form and footer */
       text-align: center;
-      padding: 10px 0;
     }
   </style>
 </head>
 <body>
-  <h1 style="text-align: center;">Welcome to Camas Walk Community Initiative</h1>
+  <h1>Welcome to Camas Walk Community Initiative</h1>
   <div class="container">
     <h2 style="text-align: center;">Login Page</h2>
     <!-- Your login form goes here -->
@@ -74,7 +76,7 @@
 
   <!-- Footer for version tracking -->
   <div class="footer">
-    <p>Version 1.0.5</p>
+    <p>Version 1.0.6</p>
   </div>
 
   <script>
