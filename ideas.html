@@ -5,87 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Community Initiative</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 50px auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-      font-size: 36px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    #ideaInput {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-
-    #submitIdeaBtn {
-      width: 100%;
-      padding: 10px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    #submitIdeaBtn:hover {
-      background-color: #0056b3;
-    }
-
-    .idea-card {
-      background-color: #fff;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .idea-card p {
-      margin: 0 0 10px;
-    }
-
-    .vote-btn {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .vote-btn:hover {
-      background-color: #0056b3;
-    }
-
-    .footer {
-      background-color: #333;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
+    /* Styles go here */
   </style>
 </head>
 <body>
@@ -107,13 +27,13 @@
 </div>
 
 <footer class="footer">
-  <p>Version 1.12</p>
+  <p>Version 1.0</p>
 </footer>
 
-<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js"></script>
-<script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js";
+  import { getDatabase, ref, push, set, transaction, onValue } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js";
+
   // Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyDn0L5eNhnsCkoNIl1xqXC1vAc9RgD3fxQ",
@@ -126,14 +46,13 @@
   };
 
   // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-
-  const database = firebase.database();
+  const firebaseApp = initializeApp(firebaseConfig);
+  const database = getDatabase(firebaseApp);
 
   // Function to save idea to Firebase database
   function saveIdeaToFirebase(ideaText, displayName) {
-    const newIdeaRef = database.ref('ideas').push();
-    newIdeaRef.set({
+    const newIdeaRef = push(ref(database, 'ideas'));
+    set(newIdeaRef, {
       text: ideaText,
       displayName: displayName,
       votes: 0,
@@ -146,7 +65,7 @@
     const ideaGallery = document.getElementById('ideaGallery');
     ideaGallery.innerHTML = ''; // Clear existing content
 
-    database.ref('ideas').once('value', (snapshot) => {
+    onValue(ref(database, 'ideas'), (snapshot) => {
       snapshot.forEach((childSnapshot) => {
         const idea = childSnapshot.val();
         const ideaCard = document.createElement('div');
@@ -188,8 +107,7 @@
 
   // Function to vote for an idea
   function voteForIdea(ideaId) {
-    const ideaRef = database.ref(`ideas/${ideaId}`);
-    ideaRef.transaction((idea) => {
+    transaction(ref(database, `ideas/${ideaId}`), (idea) => {
       if (idea) {
         if (!idea.likedBy.includes('John Doe')) { // Replace 'John Doe' with user's display name if available
           idea.votes++;
