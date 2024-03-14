@@ -180,75 +180,75 @@
   }
 
   // Function to display ideas from Firebase database
-function displayIdeas() {
-  const ideaGallery = document.getElementById('ideaGallery');
-  ideaGallery.innerHTML = ''; // Clear existing content
+  function displayIdeas() {
+    const ideaGallery = document.getElementById('ideaGallery');
+    ideaGallery.innerHTML = ''; // Clear existing content
 
-  onValue(ref(database, 'ideas'), (snapshot) => {
-    snapshot.forEach((childSnapshot) => {
-      const idea = childSnapshot.val();
-      const ideaCard = document.createElement('div');
-      ideaCard.classList.add('idea-card');
-      const ideaText = document.createElement('p');
-      ideaText.textContent = `Idea: ${idea.text}`;
-      const displayName = document.createElement('p');
-      displayName.textContent = `Submitted by: ${idea.displayName}`;
-      const votes = document.createElement('p');
-      votes.textContent = `Votes: ${idea.votes}`;
-      const voteButton = document.createElement('button');
-      voteButton.textContent = 'Vote';
-      voteButton.classList.add('vote-btn');
-      voteButton.addEventListener('click', () => {
-        voteForIdea(childSnapshot.key);
+    onValue(ref(database, 'ideas'), (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const idea = childSnapshot.val();
+        const ideaCard = document.createElement('div');
+        ideaCard.classList.add('idea-card');
+        const ideaText = document.createElement('p');
+        ideaText.textContent = `Idea: ${idea.text}`;
+        const displayName = document.createElement('p');
+        displayName.textContent = `Submitted by: ${idea.displayName}`;
+        const votes = document.createElement('p');
+        votes.textContent = `Votes: ${idea.votes}`;
+        const voteButton = document.createElement('button');
+        voteButton.textContent = 'Vote';
+        voteButton.classList.add('vote-btn');
+        voteButton.addEventListener('click', () => {
+          voteForIdea(childSnapshot.key);
+        });
+
+        ideaCard.appendChild(ideaText);
+        ideaCard.appendChild(displayName);
+        ideaCard.appendChild(votes);
+        ideaCard.appendChild(voteButton);
+        ideaGallery.appendChild(ideaCard);
       });
-
-      ideaCard.appendChild(ideaText);
-      ideaCard.appendChild(displayName);
-      ideaCard.appendChild(votes);
-      ideaCard.appendChild(voteButton);
-      ideaGallery.appendChild(ideaCard);
     });
-  });
-}
-
-   // Function to handle idea submission
-document.getElementById('ideaForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const ideaInput = document.getElementById('ideaInput');
-  const ideaText = ideaInput.value.trim();
-  const user = auth.currentUser;
-  if (user && ideaText !== '') {
-    const displayName = user.displayName || 'Anonymous';
-    saveIdeaToFirebase(ideaText, displayName);
-    ideaInput.value = ''; // Clear input field after submission
-    displayIdeas(); // Update displayed ideas
   }
-});
+
+  // Function to handle idea submission
+  document.getElementById('ideaForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const ideaInput = document.getElementById('ideaInput');
+    const ideaText = ideaInput.value.trim();
+    const user = auth.currentUser;
+    if (user && ideaText !== '') {
+      const displayName = user.displayName || 'Anonymous';
+      saveIdeaToFirebase(ideaText, displayName);
+      ideaInput.value = ''; // Clear input field after submission
+      displayIdeas(); // Update displayed ideas
+    }
+  });
 
   // Function to handle voting for an idea
-function voteForIdea(ideaId) {
-  runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
-    if (idea) {
-      const user = auth.currentUser;
-      if (user) {
-        const userId = user.uid;
-        if (!idea.likedBy) {
-          idea.likedBy = [];
+  function voteForIdea(ideaId) {
+    runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
+      if (idea) {
+        const user = auth.currentUser;
+        if (user) {
+          const userId = user.uid;
+          if (!idea.likedBy) {
+            idea.likedBy = [];
+          }
+          if (!idea.likedBy.includes(userId)) {
+            idea.votes++;
+            idea.likedBy.push(userId);
+          } else {
+            console.log("You have already voted for this idea.");
+          }
         }
-        if (!idea.likedBy.includes(userId)) {
-          idea.votes++;
-          idea.likedBy.push(userId);
-        } else {
-          console.log("You have already voted for this idea.");
-        }
+      } else {
+        console.log("Idea is undefined.");
       }
-    } else {
-      console.log("Idea is undefined.");
-    }
-    return idea;
-  });
-}
-  
+      return idea;
+    });
+  }
+
   // Function to display user info
   function displayUserInfo(user) {
     const userInfo = document.getElementById('userInfo');
@@ -275,15 +275,16 @@ function voteForIdea(ideaId) {
     });
   }
 
-  // Display initial set of ideas
-  displayIdeas();
-
-  onAuthStateChanged(auth, (user) => {
-  displayUserInfo(user);
-  if (!user && window.location.pathname !== 'https://camaswalkcommunity.github.io') {
-    window.location.href = "https://camaswalkcommunity.github.io";
-  }
-});
+  // Display initial set of ideas when the page is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    onAuthStateChanged(auth, (user) => {
+      displayUserInfo(user);
+      displayIdeas();
+      if (!user && window.location.pathname !== 'https://camaswalkcommunity.github.io') {
+        window.location.href = "https://camaswalkcommunity.github.io";
+      }
+    });
+  });
 </script>
 
 </body>
