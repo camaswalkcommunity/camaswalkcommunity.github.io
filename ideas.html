@@ -256,6 +256,7 @@
       userInfo.innerHTML = `<p>Logged in as: ${user.displayName}</p>`;
       const signOutButton = document.createElement('button');
       signOutButton.textContent = 'Sign Out';
+      signOutButton.classList.add('sign-out');
       signOutButton.addEventListener('click', () => {
         logoutUser();
       });
