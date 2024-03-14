@@ -11,6 +11,7 @@
       margin: 0;
       padding: 0;
     }
+
     .container {
       max-width: 800px;
       margin: 50px auto;
@@ -19,18 +20,22 @@
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
+
     h1 {
       font-size: 36px;
       margin-bottom: 20px;
       text-align: center;
       color: #333;
     }
+
     .form-group {
       margin-bottom: 20px;
     }
+
     label {
       font-weight: bold;
     }
+
     input[type="text"] {
       width: 100%;
       padding: 10px;
@@ -40,6 +45,7 @@
       border-radius: 4px;
       box-sizing: border-box;
     }
+
     button[type="submit"] {
       width: 100%;
       padding: 10px;
@@ -50,9 +56,11 @@
       cursor: pointer;
       font-size: 16px;
     }
+
     button[type="submit"]:hover {
       background-color: #0056b3;
     }
+
     .idea-card {
       background-color: #fff;
       padding: 20px;
@@ -60,9 +68,11 @@
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
+
     .idea-card p {
       margin: 0 0 10px;
     }
+
     .vote-btn {
       background-color: #007bff;
       color: #fff;
@@ -71,9 +81,11 @@
       border-radius: 4px;
       cursor: pointer;
     }
+
     .vote-btn:hover {
       background-color: #0056b3;
     }
+
     .footer {
       color: #fff;
       text-align: center;
@@ -82,18 +94,22 @@
       bottom: 0;
       width: 100%;
     }
+
     .user-info {
       display: flex;
       justify-content: flex-start;
       align-items: center;
       margin-bottom: 20px;
     }
+
     .user-info p {
       margin-right: 10px;
     }
+
     .sign-out {
       margin-left: auto;
     }
+
     .sign-out button {
       background-color: #dc3545;
       color: #fff;
@@ -102,15 +118,18 @@
       border-radius: 4px;
       cursor: pointer;
     }
+
     .sign-out button:hover {
       background-color: #c82333;
     }
   </style>
 </head>
 <body>
+
 <div class="container">
   <div class="user-info" id="userInfo"></div> <!-- User info display -->
   <h1>Community Initiative</h1>
+
   <!-- Idea Submission Form -->
   <form id="ideaForm">
     <div class="form-group">
@@ -119,30 +138,36 @@
     </div>
     <button type="submit" id="submitIdeaBtn">Submit</button>
   </form>
+
   <!-- Idea Gallery -->
   <div id="ideaGallery"></div>
 </div>
+
 <footer class="footer">
   <p>Version 1.42</p>
 </footer>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
   import { getDatabase, ref, push, set, runTransaction, onValue } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js";
+
   // Firebase configuration
   const firebaseConfig = {
-    apiKey: "AIzaSyDn0L5eNhnsCkoNIl1xqXC1vAc9RgD3fxQ",
-    authDomain: "camaswalkcommunity-e51e0.firebaseapp.com",
-    projectId: "camaswalkcommunity-e51e0",
-    storageBucket: "camaswalkcommunity-e51e0.appspot.com",
-    messagingSenderId: "761814884837",
-    appId: "1:761814884837:web:833d652b181df6e118cf0c",
-    measurementId: "G-XQ35VWDWFD"
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID",
+    measurementId: "YOUR_MEASUREMENT_ID"
   };
+
   // Initialize Firebase
   const firebaseApp = initializeApp(firebaseConfig);
   const database = getDatabase(firebaseApp);
   const auth = getAuth();
+
   // Function to save idea to Firebase database
   function saveIdeaToFirebase(ideaText, displayName) {
     const newIdeaRef = push(ref(database, 'ideas'));
@@ -155,26 +180,6 @@
   }
 
   // Function to display ideas from Firebase database
-function displayIdeas() {
-  const ideaGallery = document.getElementById('ideaGallery');
-  ideaGallery.innerHTML = ''; // Clear existing content
-
-  onValue(ref(database, 'ideas'), (snapshot) => {
-    snapshot.forEach((childSnapshot) => {
-      const idea = childSnapshot.val();
-      const ideaCard = document.createElement('div');
-      ideaCard.classList.add('idea-card');
-      const ideaText = document.createElement('p');
-      ideaText.textContent = `Idea: ${idea.text}`;
-      const displayName = document.createElement('p');
-      displayName.textContent = `Submitted by: ${idea.displayName}`;
-      const votes = document.createElement('p');
-      votes.textContent = `Votes: ${idea.votes}`;
-      const voteButton = document.createElement('button');
-      voteButton.textContent = 'Vote';
-      voteButton.classList.add('vote-btn');
-      voteButton.addEventListener('click', () => {
-        voteForIdea(childSnapshot.key);
   function displayIdeas() {
     const ideaGallery = document.getElementById('ideaGallery');
     ideaGallery.innerHTML = ''; // Clear existing content
@@ -203,29 +208,8 @@ function displayIdeas() {
         ideaCard.appendChild(voteButton);
         ideaGallery.appendChild(ideaCard);
       });
-
-      ideaCard.appendChild(ideaText);
-      ideaCard.appendChild(displayName);
-      ideaCard.appendChild(votes);
-      ideaCard.appendChild(voteButton);
-      ideaGallery.appendChild(ideaCard);
     });
-  });
-}
-
-   // Function to handle idea submission
-document.getElementById('ideaForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const ideaInput = document.getElementById('ideaInput');
-  const ideaText = ideaInput.value.trim();
-  const user = auth.currentUser;
-  if (user && ideaText !== '') {
-    const displayName = user.displayName || 'Anonymous';
-    saveIdeaToFirebase(ideaText, displayName);
-    ideaInput.value = ''; // Clear input field after submission
-    displayIdeas(); // Update displayed ideas
   }
-});
 
   // Function to handle idea submission
   document.getElementById('ideaForm').addEventListener('submit', (e) => {
@@ -242,20 +226,6 @@ document.getElementById('ideaForm').addEventListener('submit', (e) => {
   });
 
   // Function to handle voting for an idea
-function voteForIdea(ideaId) {
-  runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
-    if (idea) {
-      const user = auth.currentUser;
-      if (user) {
-        const userId = user.uid;
-        if (!idea.likedBy) {
-          idea.likedBy = [];
-        }
-        if (!idea.likedBy.includes(userId)) {
-          idea.votes++;
-          idea.likedBy.push(userId);
-        } else {
-          console.log("You have already voted for this idea.");
   function voteForIdea(ideaId) {
     runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
       if (idea) {
@@ -275,13 +245,6 @@ function voteForIdea(ideaId) {
       } else {
         console.log("Idea is undefined.");
       }
-    } else {
-      console.log("Idea is undefined.");
-    }
-    return idea;
-  });
-}
-
       return idea;
     });
   }
@@ -289,19 +252,29 @@ function voteForIdea(ideaId) {
   // Function to display user info
   function displayUserInfo(user) {
     const userInfo = document.getElementById('userInfo');
-@@ -275,15 +275,16 @@ <h1>Community Initiative</h1>
+    if (user) {
+      userInfo.innerHTML = `<p>Logged in as: ${user.displayName}</p>`;
+      const signOutButton = document.createElement('button');
+      signOutButton.textContent = 'Sign Out';
+      signOutButton.classList.add('sign-out');
+      signOutButton.addEventListener('click', () => {
+        logoutUser();
+      });
+      userInfo.appendChild(signOutButton);
+    } else {
+      userInfo.innerHTML = '<p>Not logged in</p>';
+    }
+  }
+
+  // Function to logout user
+  function logoutUser() {
+    signOut(auth).then(() => {
+      window.location.href = "https://camaswalkcommunity.github.io";
+    }).catch((error) => {
+      console.log('Error logging out:', error);
     });
   }
 
-  // Display initial set of ideas
-  displayIdeas();
-
-  onAuthStateChanged(auth, (user) => {
-  displayUserInfo(user);
-  if (!user && window.location.pathname !== 'https://camaswalkcommunity.github.io') {
-    window.location.href = "https://camaswalkcommunity.github.io";
-  }
-});
   // Display initial set of ideas when the page is loaded
   document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, (user) => {
@@ -315,3 +288,4 @@ function voteForIdea(ideaId) {
 </script>
 
 </body>
+</html>
