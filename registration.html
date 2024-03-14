@@ -27,27 +27,9 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     const auth = getAuth();
-  </script>
-</head>
-<body>
-  <h1>Registration Page</h1>
-  <!-- Registration form -->
-  <form id="registrationForm">
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email"><br>
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password"><br>
-    <button type="submit">Register</button>
-  </form>
 
-  <!-- Footer with version label -->
-  <footer>
-    <p>Version: 1.0.0</p>
-  </footer>
-
-  <!-- Your custom JavaScript (for handling registration logic) -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    // Function to handle form submission
+    function handleRegistrationForm() {
       const registrationForm = document.getElementById('registrationForm');
       registrationForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -69,11 +51,31 @@
           // Display error message to the user
         }
       });
-    });
+    }
+
+    // Check if createUserWithEmailAndPassword function is defined
+    if (typeof createUserWithEmailAndPassword !== "function") {
+      console.error("createUserWithEmailAndPassword is not defined");
+    } else {
+      // Call the function to handle registration form
+      handleRegistrationForm();
+    }
   </script>
+</head>
+<body>
+  <h1>Registration Page</h1>
+  <!-- Registration form -->
+  <form id="registrationForm">
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email"><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password"><br>
+    <button type="submit">Register</button>
+  </form>
+
   <!-- Footer with version label -->
   <footer>
-    <p>Version: 1.0.6</p>
+    <p>Version: 1.0.8</p>
   </footer>
 </body>
 </html>
