@@ -97,13 +97,30 @@
 
     .user-info {
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-start;
       align-items: center;
       margin-bottom: 20px;
     }
 
     .user-info p {
       margin-right: 10px;
+    }
+
+    .sign-out {
+      margin-left: auto;
+    }
+
+    .sign-out button {
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .sign-out button:hover {
+      background-color: #c82333;
     }
   </style>
 </head>
@@ -158,7 +175,7 @@
       text: ideaText,
       displayName: displayName,
       votes: 0,
-      likedBy: ['nobody']
+      likedBy: []
     });
   }
 
@@ -236,16 +253,22 @@
   function displayUserInfo(user) {
     const userInfo = document.getElementById('userInfo');
     if (user) {
-      userInfo.textContent = 'Logged in as: ' + user.displayName;
+      userInfo.innerHTML = `<p>Logged in as: ${user.displayName}</p>`;
+      const signOutButton = document.createElement('button');
+      signOutButton.textContent = 'Sign Out';
+      signOutButton.addEventListener('click', () => {
+        logoutUser();
+      });
+      userInfo.appendChild(signOutButton);
     } else {
-      userInfo.textContent = 'Not logged in';
+      userInfo.innerHTML = '<p>Not logged in</p>';
     }
   }
 
   // Function to logout user
   function logoutUser() {
     signOut(auth).then(() => {
-      window.location.href = "https://camaswalkcommunity.github.io";
+      window.location.href = "https://camaswalkcommunity.github.io/login.html";
     }).catch((error) => {
       console.log('Error logging out:', error);
     });
@@ -258,7 +281,7 @@
   onAuthStateChanged(auth, (user) => {
     displayUserInfo(user);
     if (!user) {
-      window.location.href = "https://camaswalkcommunity.github.io";
+      window.location.href = "https://camaswalkcommunity.github.io/login.html";
     }
   });
 </script>
