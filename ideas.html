@@ -256,7 +256,18 @@
     });
   }
 
-  // Function to display user info
+  
+
+  // Function to logout user
+  function logoutUser() {
+    signOut(auth).then(() => {
+      window.location.href = "https://camaswalkcommunity.github.io";
+    }).catch((error) => {
+      console.log('Error logging out:', error);
+    });
+  }
+
+// Function to display user info
   function displayUserInfo(user) {
     const userInfo = document.getElementById('userInfo');
     if (user) {
@@ -272,16 +283,7 @@
       userInfo.innerHTML = '<p>Not logged in</p>';
     }
   }
-
-  // Function to logout user
-  function logoutUser() {
-    signOut(auth).then(() => {
-      window.location.href = "https://camaswalkcommunity.github.io";
-    }).catch((error) => {
-      console.log('Error logging out:', error);
-    });
-  }
-
+  
   // Display initial set of ideas when the page is loaded
   document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, (user) => {
