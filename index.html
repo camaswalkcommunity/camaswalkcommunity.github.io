@@ -4,45 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Page</title>
-  <!-- Firebase SDK -->
-  <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyDn0L5eNhnsCkoNIl1xqXC1vAc9RgD3fxQ",
-    authDomain: "camaswalkcommunity-e51e0.firebaseapp.com",
-    projectId: "camaswalkcommunity-e51e0",
-    storageBucket: "camaswalkcommunity-e51e0.appspot.com",
-    messagingSenderId: "761814884837",
-    appId: "1:761814884837:web:833d652b181df6e118cf0c",
-    measurementId: "G-XQ35VWDWFD"
-  };
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-  <!-- Bootstrap CSS -->
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Your custom styles -->
   <style>
     body {
-      background-image: url('path/to/your/background-image.jpg'); /* Add the path to your background image */
-      background-size: cover;
-      background-position: center;
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
       height: 100vh;
       margin: 0;
-      padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
     }
     .container {
-      background-color: rgba(255, 255, 255, 0.8); /* Add opacity to make the background semi-transparent */
+      background-color: #fff;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
@@ -52,30 +25,60 @@
     }
     button[type="submit"] {
       width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1 class="text-center">Login Page</h1>
+    <h1 style="text-align: center;">Login Page</h1>
     <!-- Your login form goes here -->
     <form id="loginForm">
       <div class="form-group">
         <label for="email">Email address</label>
-        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+        <input type="email" id="email" placeholder="Enter email">
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Password">
+        <input type="password" id="password" placeholder="Password">
       </div>
-      <button type="submit" class="btn btn-primary">Login</button>
+      <button type="submit">Login</button>
     </form>
     <!-- Registration link -->
-    <p class="text-center mt-3">Don't have an account? <a href="registration.html">Register here</a></p>
+    <p style="text-align: center; margin-top: 20px;">Don't have an account? <a href="registration.html">Register here</a></p>
   </div>
 
-  <!-- Bootstrap JS (optional, if needed) -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Footer for version tracking -->
+  <div class="footer">
+    <p>Version 1.0.0</p>
+  </div>
+
   <!-- Your custom JavaScript (for handling login logic) -->
   <script>
     // Add your custom JavaScript code here to handle login logic using Firebase Authentication
