@@ -22,7 +22,7 @@
 
 <footer class="footer mt-5">
   <div class="container">
-    <p>Version 1.1</p>
+    <p>Version 1.2</p>
   </div>
 </footer>
 
@@ -47,7 +47,7 @@
   const database = getDatabase();
 
   // Get a reference to the 'ideas' node in the database
-  const ideasRef = ref(database, 'https://camaswalkcommunity-e51e0-default-rtdb.firebaseio.com/');
+  const ideasRef = ref(database, 'ideas');
 
   // Function to save an idea to Firebase Realtime Database
   function saveIdeaToFirebase(ideaText, displayName) {
