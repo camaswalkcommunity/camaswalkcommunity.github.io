@@ -115,7 +115,7 @@
 </div>
 
 <footer class="footer">
-  <p>Version 1.43</p>
+  <p>Version 1.44</p>
 </footer>
 
 <script type="module">
@@ -125,13 +125,13 @@
 
   // Firebase configuration
   const firebaseConfig = {
-    apiKey: "AIzaSyDn0L5eNhnsCkoNIl1xqXC1vAc9RgD3fxQ",
-    authDomain: "camaswalkcommunity-e51e0.firebaseapp.com",
-    projectId: "camaswalkcommunity-e51e0",
-    storageBucket: "camaswalkcommunity-e51e0.appspot.com",
-    messagingSenderId: "761814884837",
-    appId: "1:761814884837:web:833d652b181df6e118cf0c",
-    measurementId: "G-XQ35VWDWFD"
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID",
+    measurementId: "YOUR_MEASUREMENT_ID"
   };
 
   // Initialize Firebase
@@ -140,15 +140,15 @@
   const auth = getAuth();
 
   // Function to save idea to Firebase database
-function saveIdeaToFirebase(ideaText, displayName) {
-  const newIdeaRef = push(ref(database, 'ideas'));
-  set(newIdeaRef, {
-    text: ideaText,
-    displayName: displayName,
-    votes: 0,
-    likedBy: ['nobody'] // Initialize likedBy with 'nobody'
-  });
-}
+  function saveIdeaToFirebase(ideaText, displayName) {
+    const newIdeaRef = push(ref(database, 'ideas'));
+    set(newIdeaRef, {
+      text: ideaText,
+      displayName: displayName,
+      votes: 0,
+      likedBy: ['nobody'] // Initialize likedBy with 'nobody'
+    });
+  }
 
   // Function to display ideas from Firebase database
   function displayIdeas() {
@@ -196,30 +196,31 @@ function saveIdeaToFirebase(ideaText, displayName) {
     }
   });
 
+  // Function to handle idea voting
   function voteForIdea(ideaId) {
-  runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
-    if (idea) {
-      const user = auth.currentUser;
-      if (user) {
-        const userId = user.uid;
-        if (!idea.likedBy) {
-          idea.likedBy = []; // Initialize likedBy if it doesn't exist
+    runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
+      if (idea) {
+        const user = auth.currentUser;
+        if (user) {
+          const userId = user.uid;
+          if (!idea.likedBy) {
+            idea.likedBy = []; // Initialize likedBy if it doesn't exist
+          }
+          // Check if the user has already voted for the idea
+          if (!idea.likedBy.includes(userId)) {
+            // Update the idea data
+            idea.votes++;
+            idea.likedBy.push(userId); // Add user ID to likedBy array
+          } else {
+            console.log("You have already voted for this idea.");
+          }
         }
-        // Check if the user has already voted for the idea
-        if (!idea.likedBy.includes(userId)) {
-          // Update the idea data
-          idea.votes++;
-          idea.likedBy.push(userId); // Add user ID to likedBy array
-        } else {
-          console.log("You have already voted for this idea.");
-        }
+      } else {
+        console.log("Idea is undefined.");
       }
-    } else {
-      console.log("Idea is undefined.");
-    }
-    return idea;
-  });
-}
+      return idea;
+    });
+  }
 
   // Listen for authentication state changes
   onAuthStateChanged(auth, (user) => {
@@ -230,9 +231,8 @@ function saveIdeaToFirebase(ideaText, displayName) {
     }
   });
 
-    // Display initial set of ideas
+  // Initial display of ideas
   displayIdeas();
-  
 </script>
 
 </body>
