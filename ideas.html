@@ -231,9 +231,7 @@ function displayIdeas() {
         ideaText.textContent = `Idea: ${idea.text}`;
         const displayName = document.createElement('p');
         displayName.textContent = `Submitted by: ${idea.displayName}`;
-        const votes = document.createElement('p');
-votes.classList.add('votes'); // Add class 'votes'
-votes.textContent = `Votes: ${idea.votes}`;
+        
         const date = document.createElement('p');
         const formattedDate = new Date(idea.timestamp).toLocaleString('en-US', {
           weekday: 'long',
@@ -245,6 +243,9 @@ votes.textContent = `Votes: ${idea.votes}`;
           second: 'numeric'
         });
         date.textContent = `Date: ${formattedDate}`; // Add the formatted date
+        const votes = document.createElement('p');
+votes.classList.add('votes'); // Add class 'votes'
+votes.textContent = `Votes: ${idea.votes}`;
         
         const voteButton = document.createElement('button');
         voteButton.textContent = 'Vote';
