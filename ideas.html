@@ -378,14 +378,20 @@ function updateVoteDisplay(ideaId, voteCount) {
     });
   });
 
-  // Display initial set of ideas when the page is loaded
-  document.addEventListener('DOMContentLoaded', () => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user && window.location.pathname !== 'https://camaswalkcommunity.github.io') {
-        window.location.href = "https://camaswalkcommunity.github.io";
-      }
-    });
+ // Display initial set of ideas when the page is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is logged in, display ideas
+      displayUserInfo(user);
+      displayIdeas();
+    } else {
+      // User is not logged in, redirect to login page
+      window.location.href = "https://camaswalkcommunity.github.io";
+    }
   });
+});
+
 </script>
 
 </body>
