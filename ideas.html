@@ -216,41 +216,38 @@ function displayIdeas() {
   onValue(ref(database, 'ideas'), (snapshot) => {
     snapshot.forEach((childSnapshot) => {
       const idea = childSnapshot.val();
-      const ideaCard = document.createElement('div');
-      ideaCard.classList.add('idea-card');
+      const ideaKey = childSnapshot.key; // Get the key of the idea
+      
+      // Check if the idea already exists in the DOM
+      const existingIdea = document.getElementById(ideaKey);
+      if (!existingIdea) {
+        const ideaCard = document.createElement('div');
+        ideaCard.classList.add('idea-card');
+        ideaCard.id = ideaKey; // Set the ID of the idea card to its key
+        
+        const ideaText = document.createElement('p');
+        ideaText.textContent = `Idea: ${idea.text}`;
+        const displayName = document.createElement('p');
+        displayName.textContent = `Submitted by: ${idea.displayName}`;
+        const votes = document.createElement('p');
+        votes.textContent = `Votes: ${idea.votes}`;
+        const date = document.createElement('p');
+        date.textContent = `Date: ${idea.timestamp}`; // Add the timestamp directly
+        
+        const voteButton = document.createElement('button');
+        voteButton.textContent = 'Vote';
+        voteButton.classList.add('vote-btn');
+        voteButton.addEventListener('click', () => {
+          voteForIdea(ideaKey); // Pass the idea key to the vote function
+        });
 
-      // Format timestamp to a readable date
-      const timestamp = new Date(idea.timestamp);
-      const formattedDate = timestamp.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
-
-      const ideaText = document.createElement('p');
-      ideaText.textContent = `Idea: ${idea.text}`;
-      const displayName = document.createElement('p');
-      displayName.textContent = `Submitted by: ${idea.displayName}`;
-      const votes = document.createElement('p');
-      votes.textContent = `Votes: ${idea.votes}`;
-      const date = document.createElement('p');
-      date.textContent = `Date: ${formattedDate}`; // Append formatted date
-
-      const voteButton = document.createElement('button');
-      voteButton.textContent = 'Vote';
-      voteButton.classList.add('vote-btn');
-      voteButton.addEventListener('click', () => {
-        voteForIdea(childSnapshot.key);
-      });
-
-      ideaCard.appendChild(ideaText);
-      ideaCard.appendChild(displayName);
-      ideaCard.appendChild(votes);
-      ideaCard.appendChild(date);
-      ideaCard.appendChild(voteButton);
-      ideaList.appendChild(ideaCard);
-
-      // Update vote count in frontend UI when changes occur in the database
-      onValue(ref(database, `ideas/${childSnapshot.key}/votes`), (votesSnapshot) => {
-        const updatedVotes = votesSnapshot.val();
-        votes.textContent = `Votes: ${updatedVotes}`;
-      });
+        ideaCard.appendChild(ideaText);
+        ideaCard.appendChild(displayName);
+        ideaCard.appendChild(votes);
+        ideaCard.appendChild(date);
+        ideaCard.appendChild(voteButton);
+        ideaList.appendChild(ideaCard);
+      }
     });
   });
 }
