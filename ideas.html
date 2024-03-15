@@ -128,30 +128,6 @@ textarea {
       width: 100%;
     }
 
-    .user-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .user-info p {
-      margin-right: 10px;
-    }
-
-    .sign-out button {
-      background-color: #dc3545;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .sign-out button:hover {
-      background-color: #c82333;
-    }
-
     .submit-idea-container {
   background-color: #fff;
   padding: 20px;
@@ -203,12 +179,6 @@ textarea {
 </nav>
 
 <div class="container">
-  <div class="user-info">
-    <p id="userInfo">Logged in as: </p>
-    <div class="sign-out">
-      <button id="signOutBtn">Sign Out</button>
-    </div>
-  </div>
   <h1>Community Initiative</h1>
 
   <!-- Submit Idea Section -->
@@ -408,23 +378,9 @@ function updateVoteDisplay(ideaId, voteCount) {
     });
   });
 
-  // Function to display user info
-  function displayUserInfo(user) {
-    const userInfo = document.getElementById('userInfo');
-    if (userInfo) {
-      if (user) {
-        userInfo.innerHTML = `<p>Logged in as: ${user.displayName}</p>`;
-      } else {
-        userInfo.innerHTML = '<p>Not logged in</p>';
-      }
-    }
-  }
-
   // Display initial set of ideas when the page is loaded
   document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, (user) => {
-      displayUserInfo(user);
-      displayIdeas();
       if (!user && window.location.pathname !== 'https://camaswalkcommunity.github.io') {
         window.location.href = "https://camaswalkcommunity.github.io";
       }
