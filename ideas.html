@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Community Initiative</title>
-    <style>
+      <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
@@ -18,18 +18,34 @@
       text-align: center;
     }
 
+    .user-info-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+
+    .user-info {
+      color: #333;
+    }
+
+    .sign-out {
+      color: #333;
+    }
+
     .container {
-      width: 60%; /* Adjusted width */
+      width: 60%;
+      border: 1px solid #ccc;
       margin: 20px auto;
       background-color: #fff;
       padding: 20px;
       border-radius: 8px;
-      border: 1px solid #ccc;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .idea-container {
-      width: 60%; /* Adjusted width */
+      width: 60%;
       margin-top: 20px;
+      background-color: #fff;
       border: 1px solid #ccc;
       border-radius: 8px;
       padding: 20px;
@@ -50,7 +66,7 @@
     }
 
     input[type="text"] {
-      width: calc(100% - 20px); /* Adjust width to account for padding */
+      width: calc(100% - 20px);
       padding: 10px;
       font-size: 16px;
       margin-top: 5px;
@@ -106,27 +122,6 @@
       position: fixed;
       bottom: 0;
       width: 100%;
-    }
-
-    .user-info {
-      float: left;
-    }
-
-    .sign-out {
-      float: right;
-    }
-
-    .sign-out button {
-      background-color: #dc3545;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .sign-out button:hover {
-      background-color: #c82333;
     }
   </style>
 </head>
