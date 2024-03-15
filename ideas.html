@@ -295,10 +295,9 @@ function updateVoteCount(ideaId, newVoteCount) {
   set(ref(database, `ideas/${ideaId}/votes`), newVoteCount);
 }
 
-   // Function to update vote count in frontend
+  // Function to update vote count in frontend
 function updateVoteDisplay(ideaId, voteCount) {
-  const ideaList = document.getElementById('ideaList');
-  const ideaCard = ideaList.querySelector(`[data-idea-id="${ideaId}"]`);
+  const ideaCard = document.getElementById(ideaId);
   if (ideaCard) {
     const votesElement = ideaCard.querySelector('.votes');
     if (votesElement) {
