@@ -212,46 +212,38 @@
 function displayIdeas() {
   const ideaList = document.getElementById('ideaList');
 
-  // Check if the event listener has already been attached
-  if (!ideaList.dataset.eventListenerAttached) {
-    ideaList.addEventListener('click', (event) => {
-      if (event.target.classList.contains('vote-btn')) {
-        const ideaId = event.target.closest('.idea-card').id;
-        voteForIdea(ideaId);
-      }
-    });
-
-    // Set a flag to indicate that the event listener has been attached
-    ideaList.dataset.eventListenerAttached = true;
-  }
-
-  // Clear existing content
-  ideaList.innerHTML = '';
-
   onValue(ref(database, 'ideas'), (snapshot) => {
+    // Keep track of existing idea IDs to prevent duplicates
+    const existingIdeas = new Set(ideaList.querySelectorAll('.idea-card').map(card => card.id));
+
     snapshot.forEach((childSnapshot) => {
       const idea = childSnapshot.val();
-      const ideaCard = document.createElement('div');
-      ideaCard.classList.add('idea-card');
-      ideaCard.id = childSnapshot.key; // Set ID for the idea card
+      const ideaId = childSnapshot.key;
 
-      const ideaText = document.createElement('p');
-      ideaText.textContent = `Idea: ${idea.text}`;
-      const displayName = document.createElement('p');
-      displayName.textContent = `Submitted by: ${idea.displayName}`;
-      const votes = document.createElement('p');
-      votes.textContent = `Votes: ${idea.votes}`;
-      votes.classList.add('votes'); // Add a class for vote count
+      // Check if the idea already exists in the list
+      if (!existingIdeas.has(ideaId)) {
+        const ideaCard = document.createElement('div');
+        ideaCard.classList.add('idea-card');
+        ideaCard.id = ideaId; // Set ID for the idea card
 
-      const voteButton = document.createElement('button');
-      voteButton.textContent = 'Vote';
-      voteButton.classList.add('vote-btn');
+        const ideaText = document.createElement('p');
+        ideaText.textContent = `Idea: ${idea.text}`;
+        const displayName = document.createElement('p');
+        displayName.textContent = `Submitted by: ${idea.displayName}`;
+        const votes = document.createElement('p');
+        votes.textContent = `Votes: ${idea.votes}`;
+        votes.classList.add('votes'); // Add a class for vote count
 
-      ideaCard.appendChild(ideaText);
-      ideaCard.appendChild(displayName);
-      ideaCard.appendChild(votes);
-      ideaCard.appendChild(voteButton);
-      ideaList.appendChild(ideaCard);
+        const voteButton = document.createElement('button');
+        voteButton.textContent = 'Vote';
+        voteButton.classList.add('vote-btn');
+
+        ideaCard.appendChild(ideaText);
+        ideaCard.appendChild(displayName);
+        ideaCard.appendChild(votes);
+        ideaCard.appendChild(voteButton);
+        ideaList.appendChild(ideaCard);
+      }
     });
   });
 }
