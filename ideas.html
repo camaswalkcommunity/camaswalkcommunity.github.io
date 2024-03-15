@@ -3,36 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Community Initiative</title> 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Registration Page</title>
   <style>
-
-    #ideaInput {
-  font-family: Arial, sans-serif;
-}
-
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-image: url('https://www.claritychi.com/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fjmqfvlrp%2Fproduction%2F7be6b04e5831f80216b6e300e442a78d87760ee4-2560x1707.jpg%3Fw%3D1800%26fit%3Dmax&w=1920&q=65'); /* Replace 'URL_OF_YOUR_IMAGE_HERE' with the actual URL of your image */
-      background-size: cover; /* Cover the entire background */
-      background-repeat: no-repeat; /* Do not repeat the background image */
-    }
-
-textarea {
-      width: calc(100% - 22px); /* Adjust width to account for padding */
-      min-height: 50px; /* Set a minimum height */
-      padding: 10px;
-      font-size: 16px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      resize: none; /* Disable textarea resizing */
-    }
-    
+    /* CSS styles */
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
@@ -40,190 +13,118 @@ textarea {
       padding: 0;
     }
 
-    .container {
-      max-width: 800px;
-      margin: 50px auto;
+    h1 {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    form {
+      max-width: 300px;
+      margin: 20px auto;
+      background-color: #fff;
       padding: 20px;
       border-radius: 8px;
-      
-    }
-
-    h1 {
-      font-size: 36px;
-      margin-bottom: 20px;
-      text-align: center;
-      color: #333;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     label {
       font-weight: bold;
     }
 
-    input[type="text"] {
-      width: calc(100% - 22px); /* Adjust width to account for padding */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    button[type="submit"] {
+      width: 100%;
       padding: 10px;
-      font-size: 16px;
-      margin-top: 5px;
+      margin: 8px 0;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 5px;
       box-sizing: border-box;
     }
 
     button[type="submit"] {
-      width: auto; /* Make button width 100% */
-      padding: 10px;
-      background-color: #007bff;
-      color: #fff;
+      background-color: #4CAF50;
+      color: white;
       border: none;
-      border-radius: 4px;
       cursor: pointer;
-      font-size: 16px;
     }
 
     button[type="submit"]:hover {
-      background-color: #0056b3;
+      background-color: #45a049;
     }
 
-    .idea-list-container {
+    #registrationSuccess {
+      display: none;
+      max-width: 300px;
+      margin: 20px auto;
       background-color: #fff;
       padding: 20px;
-      margin-top: 20px;
       border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
-    .idea-list-label {
-      font-weight: bold;
+    #registrationSuccess p {
       margin-bottom: 10px;
     }
 
-    .idea-list {
-      list-style-type: none;
-      padding: 0;
+    #registrationSuccess button {
+      background-color: #008CBA;
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 10px 20px;
+      border-radius: 5px;
     }
 
-    .idea-list-item {
-      border-bottom: 1px solid #ccc;
-      padding: 10px 0;
+    #registrationSuccess button:hover {
+      background-color: #005f6b;
     }
 
-    .idea-list-item:last-child {
-      border-bottom: none; /* Remove border from last item */
-    }
-
-    .idea-list-item p {
-      margin: 0;
-    }
-
-    .footer {
-      color: #fff;
+    footer {
       text-align: center;
-      padding: 20px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-
-   
-    .submit-idea-container {
-  background-color: #fff;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-    .idea-card {
-  border: 1px solid #ccc; /* Add border to each idea card */
-  border-radius: 8px; /* Add border radius for rounded corners */
-  padding: 10px; /* Add padding to create space between border and content */
-  margin-bottom: 10px; /* Add margin to separate idea cards */
+      margin-top: 50px;
     }
   </style>
 </head>
 <body>
+  <h1>Registration Page</h1>
+  <!-- Registration form -->
+  <form id="registrationForm">
+    <label for="firstName">First Name:</label><br>
+    <input type="text" id="firstName" name="firstName" required><br>
+    <label for="lastName">Surname:</label><br>
+    <input type="text" id="lastName" name="lastName" required><br>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br>
+    <label for="confirmPassword">Confirm Password:</label><br>
+    <input type="password" id="confirmPassword" name="confirmPassword" required><br>
+    <button type="submit">Register</button>
+  </form>
 
-  <!-- Bootstrap Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <!-- Website Name -->
-    <a class="navbar-brand" href="#">
-      <img src="website-icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
-      Community Initiative
-    </a>
-    <!-- Navbar Toggler -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <!-- Navbar Links -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <!-- Ideas Page Link -->
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Ideas</a>
-        </li>
-        <!-- Events Page Link -->
-        <li class="nav-item">
-          <a class="nav-link" href="#">Events</a>
-        </li>
-      </ul>
-      <!-- Sign Out Button -->
-      <div class="sign-out">
-        <button id="signOutBtn" class="btn btn-danger">Sign Out</button>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<div class="container">
-  <div class="user-info">
-    <p id="userInfo">Logged in as: </p>
-    <div class="sign-out">
-      <button id="signOutBtn">Sign Out</button>
-    </div>
-  </div>
-  <h1>Community Initiative</h1>
-
-  <!-- Submit Idea Section -->
-  <div class="submit-idea-container">
-    <h2>Submit your idea:</h2>
-    <form id="ideaForm">
-      <!-- Idea label above the textarea -->
-      <div class="form-group">
-        <label for="ideaInput">Idea:</label>
-        <br> <!-- Add line break to move the textarea below the label -->
-        <!-- Textarea for the idea input -->
-        <textarea id="ideaInput" placeholder="Enter your idea"></textarea>
-      </div>
-      <!-- Submit button -->
-      <button type="submit" id="submitIdeaBtn">Submit</button>
-    </form>
+  <!-- Success message and button -->
+  <div id="registrationSuccess">
+    <p>Registration successful!</p>
+    <p>Please login with your credentials.</p>
+    <button onclick="navigateToLoginPage()">Go to Login</button>
   </div>
 
-  <!-- Idea List Section -->
-  <div class="idea-list-container">
-    <h2 class="idea-list-label">All Ideas</h2>
-    <ul class="idea-list" id="ideaList"></ul> <!-- Updated ID here -->
-  </div>
-
-  <footer class="footer">
-    <p>Version 1.42</p>
+  <!-- Footer with version label -->
+  <footer>
+    <p>Version: 1.0.22</p>
   </footer>
-</div>
-  
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-auth.js";
-  import { getDatabase, ref, push, set, runTransaction, onValue } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js";
 
-  // Firebase configuration
-  const firebaseConfig = {
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Firebase SDK imports and initialization
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
     apiKey: "AIzaSyDn0L5eNhnsCkoNIl1xqXC1vAc9RgD3fxQ",
     authDomain: "camaswalkcommunity-e51e0.firebaseapp.com",
     projectId: "camaswalkcommunity-e51e0",
@@ -231,171 +132,67 @@ textarea {
     messagingSenderId: "761814884837",
     appId: "1:761814884837:web:833d652b181df6e118cf0c",
     measurementId: "G-XQ35VWDWFD"
-  };
+    };
 
-  // Initialize Firebase
-  const firebaseApp = initializeApp(firebaseConfig);
-  const database = getDatabase(firebaseApp);
-  const auth = getAuth();
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth();
 
-  // Function to save idea to Firebase database
-  function saveIdeaToFirebase(ideaText, displayName) {
-  const timestamp = new Date().getTime(); // Get current timestamp
-  const newIdeaRef = push(ref(database, 'ideas'));
-  set(newIdeaRef, {
-    text: ideaText,
-    displayName: displayName,
-    votes: 0,
-    likedBy: [],
-    timestamp: timestamp // Add timestamp to the idea object
-  });
-}
+    // Function to navigate to login page
+    function navigateToLoginPage() {
+      // Navigate to your login page URL
+      window.location.href = 'camaswalkcommunity.github.io';
+    }
 
-// Get the textarea element
-  const textarea = document.getElementById('ideaInput');
+    // Function to show registration success message and button
+    function showRegistrationSuccess() {
+      document.getElementById('registrationForm').style.display = 'none';
+      document.getElementById('registrationSuccess').style.display = 'block';
+    }
 
-  // Add an event listener for input events
-  textarea.addEventListener('input', () => {
-    // Reset the textarea height to default in case it has been shrunk
-    textarea.style.height = 'auto';
-
-    // Set the new height to the scrollHeight of the textarea
-    textarea.style.height = textarea.scrollHeight + 'px';
-  });
-  
-// Function to display ideas from Firebase database
-function displayIdeas() {
-  const ideaList = document.getElementById('ideaList');
-  ideaList.innerHTML = ''; // Clear existing content
-
-  onValue(ref(database, 'ideas'), (snapshot) => {
-    snapshot.forEach((childSnapshot) => {
-      const idea = childSnapshot.val();
-      const ideaKey = childSnapshot.key; // Get the key of the idea
-      
-      // Check if the idea already exists in the DOM
-      const existingIdea = document.getElementById(ideaKey);
-      if (!existingIdea) {
-        const ideaCard = document.createElement('div');
-        ideaCard.classList.add('idea-card');
-        ideaCard.id = ideaKey; // Set the ID of the idea card to its key
+    // Function to handle form submission
+    function handleRegistrationForm() {
+      const registrationForm = document.getElementById('registrationForm');
+      registrationForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
         
-        const ideaText = document.createElement('p');
-        ideaText.textContent = `Idea: ${idea.text}`;
-        const displayName = document.createElement('p');
-        displayName.textContent = `Submitted by: ${idea.displayName}`;
-        const votes = document.createElement('p');
-votes.classList.add('votes'); // Add class 'votes'
-votes.textContent = `Votes: ${idea.votes}`;
-        const date = document.createElement('p');
-        const formattedDate = new Date(idea.timestamp).toLocaleString('en-US', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-          second: 'numeric'
-        });
-        date.textContent = `Date: ${formattedDate}`; // Add the formatted date
-        
-        const voteButton = document.createElement('button');
-        voteButton.textContent = 'Vote';
-        voteButton.classList.add('vote-btn');
-        voteButton.addEventListener('click', () => {
-          voteForIdea(ideaKey); // Pass the idea key to the vote function
-        });
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
 
-        ideaCard.appendChild(ideaText);
-        ideaCard.appendChild(displayName);
-        ideaCard.appendChild(date);
-        ideaCard.appendChild(votes);
-        ideaCard.appendChild(voteButton);
-        ideaList.appendChild(ideaCard);
-      }
-    });
-  });
-}
-  
-  // Function to handle idea submission
-  document.getElementById('submitIdeaBtn').addEventListener('click', () => {
-    const ideaInput = document.getElementById('ideaInput');
-    const ideaText = ideaInput.value.trim();
-    const user = auth.currentUser;
-    if (user && ideaText !== '') {
-      const displayName = user.displayName || 'Anonymous';
-      saveIdeaToFirebase(ideaText, displayName);
-      ideaInput.value = ''; // Clear input field after submission
-      displayIdeas(); // Update displayed ideas
-    }
-  });
-
-  function voteForIdea(ideaId) {
-  runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
-    if (idea) {
-      const user = auth.currentUser;
-      if (user) {
-        const userId = user.uid;
-        if (!idea.likedBy) {
-          idea.likedBy = [];
+        // Validate password confirmation
+        if (password !== confirmPassword) {
+          alert("Passwords do not match!");
+          return;
         }
-        if (!idea.likedBy.includes(userId)) {
-          idea.votes++;
-          idea.likedBy.push(userId);
-          updateVoteCount(ideaId, idea.votes); // Update vote count in database
-          updateVoteDisplay(ideaId, idea.votes); // Update vote count in frontend
-        } else {
-          console.log("You have already voted for this idea.");
+
+        try {
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+
+          // Set display name (concatenation of first name and last name)
+          await updateProfile(user, {
+            displayName: `${firstName} ${lastName}`
+          });
+
+          console.log('User registered:', user);
+          // Show registration success message and button
+          showRegistrationSuccess();
+        } catch (error) {
+          // Handle errors
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.error('Registration error:', errorMessage);
+          // Display error message to the user
         }
-      }
-    } else {
-      console.log("Idea is undefined.");
+      });
     }
-    return idea;
-  });
-}
 
-// Function to update vote count in database
-function updateVoteCount(ideaId, newVoteCount) {
-  set(ref(database, `ideas/${ideaId}/votes`), newVoteCount);
-}
-
-  // Function to update vote count in frontend
-function updateVoteDisplay(ideaId, voteCount) {
-  console.log("Updating vote display for ideaId:", ideaId);
-    console.log("New vote count:", voteCount);
-  const ideaCard = document.getElementById(ideaId);
-    console.log("Found idea card:", ideaCard);
-  if (ideaCard) {
-    const votesElement = ideaCard.querySelector('.votes');
-    console.log("Found votes element:", votesElement);
-    if (votesElement) {
-      votesElement.textContent = `Votes: ${voteCount}`;
-    }
-  }
-}
-
-
-  // Function to logout user
-  document.getElementById('signOutBtn').addEventListener('click', () => {
-    signOut(auth).then(() => {
-      window.location.href = "https://camaswalkcommunity.github.io";
-    }).catch((error) => {
-      console.log('Error logging out:', error);
-    });
-  });
-
-  // Display initial set of ideas when the page is loaded
-  document.addEventListener('DOMContentLoaded', () => {
-    onAuthStateChanged(auth, (user) => {
-      displayUserInfo(user);
-      displayIdeas();
-      if (!user && window.location.pathname !== 'https://camaswalkcommunity.github.io') {
-        window.location.href = "https://camaswalkcommunity.github.io";
-      }
-    });
-  });
-</script>
-
+    // Call the function to handle registration form
+    handleRegistrationForm();
+  </script>
 </body>
 </html>
