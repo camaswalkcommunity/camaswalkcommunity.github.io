@@ -198,14 +198,16 @@
 
   // Function to save idea to Firebase database
   function saveIdeaToFirebase(ideaText, displayName) {
-    const newIdeaRef = push(ref(database, 'ideas'));
-    set(newIdeaRef, {
-      text: ideaText,
-      displayName: displayName,
-      votes: 0,
-      likedBy: []
-    });
-  }
+  const timestamp = new Date().getTime(); // Get current timestamp
+  const newIdeaRef = push(ref(database, 'ideas'));
+  set(newIdeaRef, {
+    text: ideaText,
+    displayName: displayName,
+    votes: 0,
+    likedBy: [],
+    timestamp: timestamp // Add timestamp to the idea object
+  });
+}
 
  function displayIdeas() {
   const ideaList = document.getElementById('ideaList');
