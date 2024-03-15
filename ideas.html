@@ -184,34 +184,40 @@ function displayIdeas() {
   const ideaGallery = document.getElementById('ideaGallery');
   ideaGallery.innerHTML = ''; // Clear existing content
 
+  const displayedIdeas = new Set(); // Set to track displayed idea IDs
+
   onValue(ref(database, 'ideas'), (snapshot) => {
     snapshot.forEach((childSnapshot) => {
-      const idea = childSnapshot.val();
-      const ideaCard = document.createElement('div');
-      ideaCard.classList.add('idea-card');
-      const ideaText = document.createElement('p');
-      ideaText.textContent = `Idea: ${idea.text}`;
-      const displayName = document.createElement('p');
-      displayName.textContent = `Submitted by: ${idea.displayName}`;
-      const votes = document.createElement('p');
-      votes.textContent = `Votes: ${idea.votes}`;
-      const voteButton = document.createElement('button');
-      voteButton.textContent = 'Vote';
-      voteButton.classList.add('vote-btn');
-      voteButton.addEventListener('click', () => {
-        voteForIdea(childSnapshot.key);
-        // After voting, update the displayed vote count
-        votes.textContent = `Votes: ${idea.votes + 1}`;
-      });
+      const ideaId = childSnapshot.key;
+      if (!displayedIdeas.has(ideaId)) { // Check if idea is not already displayed
+        const idea = childSnapshot.val();
+        const ideaCard = document.createElement('div');
+        ideaCard.classList.add('idea-card');
+        const ideaText = document.createElement('p');
+        ideaText.textContent = `Idea: ${idea.text}`;
+        const displayName = document.createElement('p');
+        displayName.textContent = `Submitted by: ${idea.displayName}`;
+        const votes = document.createElement('p');
+        votes.textContent = `Votes: ${idea.votes}`;
+        const voteButton = document.createElement('button');
+        voteButton.textContent = 'Vote';
+        voteButton.classList.add('vote-btn');
+        voteButton.addEventListener('click', () => {
+          voteForIdea(childSnapshot.key);
+        });
 
-      ideaCard.appendChild(ideaText);
-      ideaCard.appendChild(displayName);
-      ideaCard.appendChild(votes);
-      ideaCard.appendChild(voteButton);
-      ideaGallery.appendChild(ideaCard);
+        ideaCard.appendChild(ideaText);
+        ideaCard.appendChild(displayName);
+        ideaCard.appendChild(votes);
+        ideaCard.appendChild(voteButton);
+        ideaGallery.appendChild(ideaCard);
+
+        displayedIdeas.add(ideaId); // Add idea key to displayed set
+      }
     });
   });
 }
+
 
   // Function to handle idea submission
   document.getElementById('ideaForm').addEventListener('submit', (e) => {
