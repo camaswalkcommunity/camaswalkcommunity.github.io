@@ -21,80 +21,6 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    h1 {
-      font-size: 36px;
-      margin-bottom: 20px;
-      text-align: center;
-      color: #333;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      font-weight: bold;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-
-    button[type="submit"] {
-      width: 100%;
-      padding: 10px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    button[type="submit"]:hover {
-      background-color: #0056b3;
-    }
-
-    .idea-card {
-      background-color: #fff;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .idea-card p {
-      margin: 0 0 10px;
-    }
-
-    .vote-btn {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .vote-btn:hover {
-      background-color: #0056b3;
-    }
-
-    .footer {
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-
     .user-info {
       display: flex;
       justify-content: flex-start;
@@ -106,41 +32,55 @@
       margin-right: 10px;
     }
 
-    .sign-out {
-      margin-left: auto;
+    .submit-idea-section,
+    .idea-list-section {
+      margin-bottom: 20px;
     }
 
-    .sign-out button {
-      background-color: #dc3545;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
+    .submit-idea-section h2,
+    .idea-list-section h2 {
+      margin-top: 0;
     }
 
-    .sign-out button:hover {
-      background-color: #c82333;
+    .submit-idea-section form {
+      margin-bottom: 20px;
+    }
+
+    .idea-card {
+      border: 1px solid #ccc; /* Add border to each idea card */
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .idea-card p {
+      margin: 0 0 10px;
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <div class="user-info" id="userInfo"></div> <!-- User info display -->
+  <div class="user-info" id="userInfo"></div>
   <h1>Community Initiative</h1>
 
-  <!-- Idea Submission Form -->
-  <form id="ideaForm">
-    <div class="form-group">
-      <label for="ideaInput">Submit your idea:</label>
-      <input type="text" id="ideaInput" placeholder="Enter your idea">
-    </div>
-    <button type="submit" id="submitIdeaBtn">Submit</button>
-  </form>
+  <!-- Submit Idea Section -->
+  <div class="submit-idea-section">
+    <h2>Submit Your Idea</h2>
+    <form id="ideaForm">
+      <div class="form-group">
+        <label for="ideaInput">Idea:</label>
+        <input type="text" id="ideaInput" placeholder="Enter your idea">
+      </div>
+      <button type="submit" id="submitIdeaBtn">Submit</button>
+    </form>
+  </div>
 
-  <!-- Idea Gallery -->
-  <div id="ideaGallery"></div>
+  <!-- Idea List Section -->
+  <div class="idea-list-section">
+    <h2>Ideas</h2>
+    <div id="ideaGallery"></div>
+  </div>
 </div>
 
 <footer class="footer">
@@ -169,19 +109,18 @@
   const auth = getAuth();
 
   // Function to save idea to Firebase database
-function saveIdeaToFirebase(ideaText, displayName) {
-  const newIdeaRef = push(ref(database, 'ideas'));
-  const timestamp = new Date().toISOString(); // Get current timestamp
-  set(newIdeaRef, {
-    text: ideaText,
-    displayName: displayName,
-    votes: 0,
-    likedBy: [],
-    timestamp: timestamp // Add timestamp to the idea
-  });
-}
- // Function to display ideas from Firebase database
-function displayIdeas() {
+  function saveIdeaToFirebase(ideaText, displayName) {
+    const newIdeaRef = push(ref(database, 'ideas'));
+    set(newIdeaRef, {
+      text: ideaText,
+      displayName: displayName,
+      votes: 0,
+      likedBy: []
+    });
+  }
+
+  // Function to display ideas from Firebase database
+  function displayIdeas() {
   const ideaGallery = document.getElementById('ideaGallery');
   ideaGallery.innerHTML = ''; // Clear existing content
 
@@ -200,8 +139,6 @@ function displayIdeas() {
         displayName.textContent = `Submitted by: ${idea.displayName}`;
         const votes = document.createElement('p');
         votes.textContent = `Votes: ${idea.votes}`;
-        const submissionDate = document.createElement('p'); // Add a paragraph for submission date
-        submissionDate.textContent = `Submitted on: ${new Date(idea.timestamp).toLocaleString()}`; // Convert timestamp to date string
         const voteButton = document.createElement('button');
         voteButton.textContent = 'Vote';
         voteButton.classList.add('vote-btn');
@@ -211,7 +148,6 @@ function displayIdeas() {
 
         ideaCard.appendChild(ideaText);
         ideaCard.appendChild(displayName);
-        ideaCard.appendChild(submissionDate); // Append submission date to the idea card
         ideaCard.appendChild(votes);
         ideaCard.appendChild(voteButton);
         ideaGallery.appendChild(ideaCard);
@@ -221,7 +157,6 @@ function displayIdeas() {
     });
   });
 }
-
 
   // Function to handle idea submission
   document.getElementById('ideaForm').addEventListener('submit', (e) => {
@@ -237,36 +172,29 @@ function displayIdeas() {
     }
   });
 
-// Function to handle voting for an idea
-function voteForIdea(ideaId) {
-  runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
-    if (idea) {
-      const user = auth.currentUser;
-      if (user) {
-        const userId = user.uid;
-        if (!idea.likedBy) {
-          idea.likedBy = [];
+  // Function to handle voting for an idea
+  function voteForIdea(ideaId) {
+    runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
+      if (idea) {
+        const user = auth.currentUser;
+        if (user) {
+          const userId = user.uid;
+          if (!idea.likedBy) {
+            idea.likedBy = [];
+          }
+          if (!idea.likedBy.includes(userId)) {
+            idea.votes++;
+            idea.likedBy.push(userId);
+          } else {
+            console.log("You have already voted for this idea.");
+          }
         }
-        if (!idea.likedBy.includes(userId)) {
-          idea.votes++;
-          idea.likedBy.push(userId);
-          return idea; // Return updated idea object
-        } else {
-          console.log("You have already voted for this idea.");
-        }
+      } else {
+        console.log("Idea is undefined.");
       }
-    } else {
-      console.log("Idea is undefined.");
-    }
-    return idea; // Return original idea object if no changes are made
-  }).then(() => {
-    // Once transaction is complete, update the display
-    displayIdeas(); // Update displayed ideas
-  }).catch((error) => {
-    console.log('Error voting for idea:', error);
-  });
-}
-
+      return idea;
+    });
+  }
 
   // Function to logout user
   function logoutUser() {
@@ -293,17 +221,17 @@ function voteForIdea(ideaId) {
       userInfo.innerHTML = '<p>Not logged in</p>';
     }
   }
-
-// Display initial set of ideas when the page is loaded
-document.addEventListener('DOMContentLoaded', () => {
-  onAuthStateChanged(auth, (user) => {
-    displayUserInfo(user);
-    displayIdeas();
-    if (!user && window.location.pathname !== '/ideas.html') {
-      window.location.href = "/ideas.html";
-    }
+  
+  // Display initial set of ideas when the page is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    onAuthStateChanged(auth, (user) => {
+      displayUserInfo(user);
+      displayIdeas();
+      if (!user && window.location.pathname !== 'https://camaswalkcommunity.github.io') {
+        window.location.href = "https://camaswalkcommunity.github.io";
+      }
+    });
   });
-});
 </script>
 
 </body>
