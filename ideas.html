@@ -13,8 +13,7 @@
     }
 
     .page-header {
-      background-color: #333;
-      color: #fff;
+      color: #333;
       padding: 20px;
       text-align: center;
     }
@@ -39,7 +38,6 @@
       font-size: 36px;
       margin-bottom: 20px;
       text-align: center;
-      color: #333;
     }
 
     .form-group {
@@ -51,7 +49,7 @@
     }
 
     input[type="text"] {
-      width: 100%;
+      width: calc(100% - 20px); /* Adjust width to account for padding */
       padding: 10px;
       font-size: 16px;
       margin-top: 5px;
@@ -149,7 +147,7 @@
   <button type="submit" id="submitIdeaBtn">Submit</button>
 </div>
 
-<div class="idea-container" id="ideaGallery"></div>
+<div class="container idea-container" id="ideaGallery"></div>
 
 <footer class="footer">
   <p>Version 1.0.0</p>
