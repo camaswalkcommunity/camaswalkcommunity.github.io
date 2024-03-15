@@ -41,19 +41,18 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .idea-container {
+    .idea-container-wrapper {
       width: 60%;
-      margin-top: 20px;
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    .idea-container {
       background-color: #fff;
       border: 1px solid #ccc;
       border-radius: 8px;
       padding: 20px;
-    }
-
-    .idea-container label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 10px;
+      margin-top: 20px;
     }
 
     h1 {
@@ -151,9 +150,9 @@
   <button type="submit" id="submitIdeaBtn">Submit</button>
 </div>
 
-<div class="idea-container">
-  <label>All Ideas</label>
-  <div id="ideaGallery"></div>
+<div class="idea-container-wrapper">
+  <h2>All Ideas</h2>
+  <div class="idea-container" id="ideaGallery"></div>
 </div>
 
 <footer class="footer">
