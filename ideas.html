@@ -214,7 +214,7 @@ function displayIdeas() {
 
   onValue(ref(database, 'ideas'), (snapshot) => {
     // Keep track of existing idea IDs to prevent duplicates
-    const existingIdeas = new Set(ideaList.querySelectorAll('.idea-card').map(card => card.id));
+    const existingIdeas = new Set(Array.from(ideaList.querySelectorAll('.idea-card')).map(card => card.id));
 
     snapshot.forEach((childSnapshot) => {
       const idea = childSnapshot.val();
