@@ -138,7 +138,7 @@
   border-radius: 8px; /* Add border radius for rounded corners */
   padding: 10px; /* Add padding to create space between border and content */
   margin-bottom: 10px; /* Add margin to separate idea cards */
-      
+    }
   </style>
 </head>
 <body>
@@ -234,7 +234,16 @@ function displayIdeas() {
 votes.classList.add('votes'); // Add class 'votes'
 votes.textContent = `Votes: ${idea.votes}`;
         const date = document.createElement('p');
-        date.textContent = `Date: ${idea.timestamp}`; // Add the timestamp directly
+        const formattedDate = new Date(idea.timestamp).toLocaleString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric'
+        });
+        date.textContent = `Date: ${formattedDate}`; // Add the formatted date
         
         const voteButton = document.createElement('button');
         voteButton.textContent = 'Vote';
