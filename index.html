@@ -34,22 +34,26 @@
       });
 
     // Function to handle login
-    function loginUser() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+function loginUser() {
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
 
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // Redirect user to a webpage on successful login
-          window.location.href = "https://camaswalkcommunity.github.io/ideas.html";
-        })
-        .catch((error) => {
-          // Handle login errors
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          document.getElementById('loginError').innerText = errorMessage;
-        });
-    }
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Log successful login message
+      console.log("User successfully logged in:", userCredential.user.email);
+
+      // Redirect user to a webpage on successful login
+      window.location.href = "https://camaswalkcommunity.github.io/ideas.html";
+    })
+    .catch((error) => {
+      // Handle login errors
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      document.getElementById('loginError').innerText = errorMessage;
+    });
+}
+
 
     // Add event listener to the login button
     document.addEventListener('DOMContentLoaded', function() {
