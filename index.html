@@ -7,7 +7,7 @@
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
     // Firebase configuration
     const firebaseConfig = {
@@ -22,19 +22,30 @@
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Set session persistence to 'SESSION'
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        // Session persistence successfully enabled
+      })
+      .catch((error) => {
+        console.error("Error enabling session persistence:", error);
+      });
 
     // Function to handle login
     function loginUser() {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
-      signInWithEmailAndPassword(app, email, password)
+      signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Redirect user to a webpage on successful login
           window.location.href = "https://camaswalkcommunity.github.io/ideas.html";
         })
         .catch((error) => {
           // Handle login errors
+          const errorCode = error.code;
           const errorMessage = error.message;
           document.getElementById('loginError').innerText = errorMessage;
         });
