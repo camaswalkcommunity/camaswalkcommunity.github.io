@@ -154,13 +154,13 @@
 
   // Firebase configuration
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID",
-    measurementId: "YOUR_MEASUREMENT_ID"
+    apiKey: "AIzaSyDn0L5eNhnsCkoNIl1xqXC1vAc9RgD3fxQ",
+    authDomain: "camaswalkcommunity-e51e0.firebaseapp.com",
+    projectId: "camaswalkcommunity-e51e0",
+    storageBucket: "camaswalkcommunity-e51e0.appspot.com",
+    messagingSenderId: "761814884837",
+    appId: "1:761814884837:web:833d652b181df6e118cf0c",
+    measurementId: "G-XQ35VWDWFD"
   };
 
   // Initialize Firebase
@@ -181,15 +181,11 @@
 
   // Function to display ideas from Firebase database
   function displayIdeas() {
-  const ideaGallery = document.getElementById('ideaGallery');
-  ideaGallery.innerHTML = ''; // Clear existing content
+    const ideaGallery = document.getElementById('ideaGallery');
+    ideaGallery.innerHTML = ''; // Clear existing content
 
-  const displayedIdeas = new Set(); // Set to track displayed idea IDs
-
-  onValue(ref(database, 'ideas'), (snapshot) => {
-    snapshot.forEach((childSnapshot) => {
-      const ideaId = childSnapshot.key;
-      if (!displayedIdeas.has(ideaId)) { // Check if idea is not already displayed
+    onValue(ref(database, 'ideas'), (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
         const idea = childSnapshot.val();
         const ideaCard = document.createElement('div');
         ideaCard.classList.add('idea-card');
@@ -211,12 +207,9 @@
         ideaCard.appendChild(votes);
         ideaCard.appendChild(voteButton);
         ideaGallery.appendChild(ideaCard);
-
-        displayedIdeas.add(ideaId); // Add idea key to displayed set
-      }
+      });
     });
-  });
-}
+  }
 
   // Function to handle idea submission
   document.getElementById('ideaForm').addEventListener('submit', (e) => {
@@ -256,8 +249,6 @@
     });
   }
 
-  
-
   // Function to logout user
   function logoutUser() {
     signOut(auth).then(() => {
@@ -267,7 +258,7 @@
     });
   }
 
-// Function to display user info
+  // Function to display user info
   function displayUserInfo(user) {
     const userInfo = document.getElementById('userInfo');
     if (user) {
@@ -283,15 +274,12 @@
       userInfo.innerHTML = '<p>Not logged in</p>';
     }
   }
-  
+
   // Display initial set of ideas when the page is loaded
   document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, (user) => {
       displayUserInfo(user);
       displayIdeas();
-      if (!user && window.location.pathname !== 'https://camaswalkcommunity.github.io') {
-        window.location.href = "https://camaswalkcommunity.github.io";
-      }
     });
   });
 </script>
