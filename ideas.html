@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Community Initiative</title>
   <style>
+
+textarea {
+      width: calc(100% - 22px); /* Adjust width to account for padding */
+      min-height: 50px; /* Set a minimum height */
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      resize: none; /* Disable textarea resizing */
+    }
+    
     body {
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
@@ -156,11 +169,14 @@
   <div class="submit-idea-container">
     <h2>Submit your idea:</h2>
     <form id="ideaForm">
+      <!-- Idea label above the textarea -->
       <div class="form-group">
         <label for="ideaInput">Idea:</label>
-        <!-- Replace input with textarea -->
+        <br> <!-- Add line break to move the textarea below the label -->
+        <!-- Textarea for the idea input -->
         <textarea id="ideaInput" placeholder="Enter your idea"></textarea>
       </div>
+      <!-- Submit button -->
       <button type="submit" id="submitIdeaBtn">Submit</button>
     </form>
   </div>
