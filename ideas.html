@@ -12,53 +12,20 @@
       padding: 0;
     }
 
-    .page-header {
-      color: #333;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .user-info-container {
-      display: flex;
-      justify-content: space-between;
-      padding: 0 20px;
-    }
-
-    .user-info {
-      color: #333;
-    }
-
-    .sign-out {
-      color: #333;
-    }
-
     .container {
-      width: 60%;
-      margin: 20px auto;
+      max-width: 800px;
+      margin: 50px auto;
       background-color: #fff;
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .idea-container-wrapper {
-      width: 60%;
-      margin: 20px auto;
-      text-align: center;
-    }
-
-    .idea-container {
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 20px;
-      margin-top: 20px;
-    }
-
     h1 {
       font-size: 36px;
       margin-bottom: 20px;
       text-align: center;
+      color: #333;
     }
 
     .form-group {
@@ -70,7 +37,7 @@
     }
 
     input[type="text"] {
-      width: calc(100% - 20px);
+      width: calc(100% - 22px); /* Adjust width to account for padding */
       padding: 10px;
       font-size: 16px;
       margin-top: 5px;
@@ -127,36 +94,97 @@
       bottom: 0;
       width: 100%;
     }
+
+    .user-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 0 20px; /* Add padding to create space */
+    }
+
+    .user-info p {
+      margin-right: 10px;
+    }
+
+    .idea-list-container {
+      background-color: #fff;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-align: left; /* Align text to the left */
+    }
+
+    .idea-list-label {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .idea-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .idea-list-item {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+    }
+
+    .idea-list-item:last-child {
+      border-bottom: none; /* Remove border from last item */
+    }
+
+    .idea-list-item p {
+      margin: 0;
+    }
+
+    .sign-out button {
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .sign-out button:hover {
+      background-color: #c82333;
+    }
   </style>
 </head>
 <body>
 
-<div class="page-header">
-  <h1>Community Initiative</h1>
-</div>
-
-<div class="user-info-container">
-  <div class="user-info" id="userInfo"></div>
-  <div class="sign-out">
-    <button id="signOutBtn">Sign Out</button>
-  </div>
-</div>
-
 <div class="container">
-  <div class="form-group">
-    <label for="ideaInput">Submit your idea:</label>
-    <input type="text" id="ideaInput" placeholder="Enter your idea">
+  <div class="user-info">
+    <p id="userInfo">Logged in as: </p>
+    <div class="sign-out">
+      <button id="signOutBtn">Sign Out</button>
+    </div>
   </div>
-  <button type="submit" id="submitIdeaBtn">Submit</button>
-</div>
+  <h1>Community Initiative</h1>
 
-<div class="idea-container-wrapper">
-  <h2>All Ideas</h2>
-  <div class="idea-container" id="ideaGallery"></div>
+  <!-- Submit Idea Section -->
+  <div class="submit-idea-container">
+    <h2>Submit your idea:</h2>
+    <form id="ideaForm">
+      <div class="form-group">
+        <label for="ideaInput">Idea:</label>
+        <input type="text" id="ideaInput" placeholder="Enter your idea">
+      </div>
+      <button type="submit" id="submitIdeaBtn">Submit</button>
+    </form>
+  </div>
+
+  <!-- Idea List Section -->
+  <div class="idea-list-container">
+    <h2 class="idea-list-label">All Ideas</h2>
+    <ul class="idea-list" id="ideaList"></ul>
+  </div>
 </div>
 
 <footer class="footer">
-  <p>Version 1.0.0</p>
+  <p>Version 1.42</p>
 </footer>
 
 <script type="module">
