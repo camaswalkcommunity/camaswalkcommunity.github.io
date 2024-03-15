@@ -220,8 +220,8 @@
       ideaCard.classList.add('idea-card');
 
       // Format timestamp to a readable date
-      const timestamp = idea.timestamp; // Assuming the timestamp is correctly stored
-      const formattedDate = new Date(timestamp).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+      const timestamp = idea.timestamp ? new Date(idea.timestamp) : new Date(); // Check if timestamp exists
+      const formattedDate = timestamp.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
 
       const ideaText = document.createElement('p');
       ideaText.textContent = `Idea: ${idea.text}`;
@@ -248,6 +248,7 @@
     });
   });
 }
+  
   // Function to handle idea submission
   document.getElementById('submitIdeaBtn').addEventListener('click', () => {
     const ideaInput = document.getElementById('ideaInput');
