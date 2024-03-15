@@ -123,17 +123,16 @@ textarea {
     }
 
     .user-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start; /* Align items at the top */
-      margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items at the top */
+  margin-bottom: 20px;
+}
 
-    }
-
-    .user-info p {
-      margin-right: 10px;
-    }
-
+.user-info-text {
+  display: flex; /* Ensures the text aligns correctly */
+  align-items: flex-start; /* Align text at the top */
+}
     .sign-out button {
       background-color: #dc3545;
       color: #fff;
@@ -165,13 +164,15 @@ textarea {
 </head>
 <body>
 
-<div class="container">
-  <div class="user-info">
-    <p id="userInfo">Logged in as: </p>
-    <div class="sign-out">
-      <button id="signOutBtn">Sign Out</button>
-    </div>
+<div class="user-info">
+  <div class="user-info-text" id="userInfo">
+    <!-- Logged in user text -->
   </div>
+  <div class="sign-out">
+    <!-- Sign out button -->
+    <button id="signOutBtn">Sign Out</button>
+  </div>
+</div>
   <h1>Community Initiative</h1>
 
   <!-- Submit Idea Section -->
