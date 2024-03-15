@@ -169,16 +169,17 @@
   const auth = getAuth();
 
   // Function to save idea to Firebase database
-  function saveIdeaToFirebase(ideaText, displayName) {
-    const newIdeaRef = push(ref(database, 'ideas'));
-    set(newIdeaRef, {
-      text: ideaText,
-      displayName: displayName,
-      votes: 0,
-      likedBy: []
-    });
-  }
-
+function saveIdeaToFirebase(ideaText, displayName) {
+  const newIdeaRef = push(ref(database, 'ideas'));
+  const timestamp = new Date().toISOString(); // Get current timestamp
+  set(newIdeaRef, {
+    text: ideaText,
+    displayName: displayName,
+    votes: 0,
+    likedBy: [],
+    timestamp: timestamp // Add timestamp to the idea
+  });
+}
  // Function to display ideas from Firebase database
 function displayIdeas() {
   const ideaGallery = document.getElementById('ideaGallery');
@@ -199,15 +200,18 @@ function displayIdeas() {
         displayName.textContent = `Submitted by: ${idea.displayName}`;
         const votes = document.createElement('p');
         votes.textContent = `Votes: ${idea.votes}`;
+        const submissionDate = document.createElement('p'); // Add a paragraph for submission date
+        submissionDate.textContent = `Submitted on: ${new Date(idea.timestamp).toLocaleString()}`; // Convert timestamp to date string
         const voteButton = document.createElement('button');
         voteButton.textContent = 'Vote';
         voteButton.classList.add('vote-btn');
         voteButton.addEventListener('click', () => {
-          voteForIdea(ideaId); // Pass ideaId instead of childSnapshot.key
+          voteForIdea(childSnapshot.key);
         });
 
         ideaCard.appendChild(ideaText);
         ideaCard.appendChild(displayName);
+        ideaCard.appendChild(submissionDate); // Append submission date to the idea card
         ideaCard.appendChild(votes);
         ideaCard.appendChild(voteButton);
         ideaGallery.appendChild(ideaCard);
