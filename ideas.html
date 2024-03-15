@@ -211,7 +211,22 @@
 // Function to display ideas from Firebase database
 function displayIdeas() {
   const ideaList = document.getElementById('ideaList');
-  ideaList.innerHTML = ''; // Clear existing content
+
+  // Check if the event listener has already been attached
+  if (!ideaList.dataset.eventListenerAttached) {
+    ideaList.addEventListener('click', (event) => {
+      if (event.target.classList.contains('vote-btn')) {
+        const ideaId = event.target.closest('.idea-card').id;
+        voteForIdea(ideaId);
+      }
+    });
+
+    // Set a flag to indicate that the event listener has been attached
+    ideaList.dataset.eventListenerAttached = true;
+  }
+
+  // Clear existing content
+  ideaList.innerHTML = '';
 
   onValue(ref(database, 'ideas'), (snapshot) => {
     snapshot.forEach((childSnapshot) => {
@@ -237,14 +252,6 @@ function displayIdeas() {
       ideaCard.appendChild(votes);
       ideaCard.appendChild(voteButton);
       ideaList.appendChild(ideaCard);
-    });
-
-    // Attach event listener for vote buttons using event delegation
-    ideaList.addEventListener('click', (event) => {
-      if (event.target.classList.contains('vote-btn')) {
-        const ideaId = event.target.closest('.idea-card').id;
-        voteForIdea(ideaId);
-      }
     });
   });
 }
