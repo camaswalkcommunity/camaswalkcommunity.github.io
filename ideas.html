@@ -193,21 +193,25 @@
   }
 
   // Function to display user info
-  function displayUserInfo(user) {
-    const userInfo = document.getElementById('userInfo');
-    if (user) {
-      userInfo.innerHTML = `<p>Logged in as: ${user.displayName}</p>`;
-      const signOutButton = document.createElement('button');
-      signOutButton.textContent = 'Sign Out';
-      signOutButton.classList.add('sign-out');
-      signOutButton.addEventListener('click', () => {
-        logoutUser();
-      });
-      userInfo.appendChild(signOutButton);
-    } else {
-      userInfo.innerHTML = '<p>Not logged in</p>';
-    }
+function displayUserInfo(user) {
+  const userInfo = document.getElementById('userInfo');
+  if (user) {
+    const userInfoText = document.createElement('p');
+    userInfoText.textContent = `Logged in as: ${user.displayName}`;
+    userInfoText.style.marginRight = '10px'; // Add some margin between user info and sign out button
+    userInfo.prepend(userInfoText); // Prepend user info to the container
+
+    const signOutButton = document.createElement('button');
+    signOutButton.textContent = 'Sign Out';
+    signOutButton.classList.add('sign-out');
+    signOutButton.addEventListener('click', () => {
+      logoutUser();
+    });
+    userInfo.appendChild(signOutButton);
+  } else {
+    userInfo.innerHTML = '<p>Not logged in</p>';
   }
+}
   
   // Display initial set of ideas when the page is loaded
   document.addEventListener('DOMContentLoaded', () => {
