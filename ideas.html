@@ -297,9 +297,13 @@ function updateVoteCount(ideaId, newVoteCount) {
 
   // Function to update vote count in frontend
 function updateVoteDisplay(ideaId, voteCount) {
+  console.log("Updating vote display for ideaId:", ideaId);
+    console.log("New vote count:", voteCount);
   const ideaCard = document.getElementById(ideaId);
+    console.log("Found idea card:", ideaCard);
   if (ideaCard) {
     const votesElement = ideaCard.querySelector('.votes');
+    console.log("Found votes element:", votesElement);
     if (votesElement) {
       votesElement.textContent = `Votes: ${voteCount}`;
     }
