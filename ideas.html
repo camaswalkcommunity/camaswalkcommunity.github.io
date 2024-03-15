@@ -275,13 +275,16 @@
     }
   }
 
-  // Display initial set of ideas when the page is loaded
-  document.addEventListener('DOMContentLoaded', () => {
-    onAuthStateChanged(auth, (user) => {
-      displayUserInfo(user);
-      displayIdeas();
-    });
+// Display initial set of ideas when the page is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  onAuthStateChanged(auth, (user) => {
+    displayUserInfo(user);
+    displayIdeas();
+    if (!user && window.location.pathname !== '/ideas.html') {
+      window.location.href = "/ideas.html";
+    }
   });
+});
 </script>
 
 </body>
