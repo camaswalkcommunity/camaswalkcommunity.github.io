@@ -206,38 +206,45 @@
     });
   }
 
-  // Function to display ideas from Firebase database
-  function displayIdeas() {
-    const ideaGallery = document.getElementById('ideaGallery');
-    ideaGallery.innerHTML = ''; // Clear existing content
+ function displayIdeas() {
+  const ideaList = document.getElementById('ideaList');
+  ideaList.innerHTML = ''; // Clear existing content
 
-    onValue(ref(database, 'ideas'), (snapshot) => {
-      snapshot.forEach((childSnapshot) => {
-        const idea = childSnapshot.val();
-        const ideaCard = document.createElement('div');
-        ideaCard.classList.add('idea-card');
-        const ideaText = document.createElement('p');
-        ideaText.textContent = `Idea: ${idea.text}`;
-        const displayName = document.createElement('p');
-        displayName.textContent = `Submitted by: ${idea.displayName}`;
-        const votes = document.createElement('p');
-        votes.textContent = `Votes: ${idea.votes}`;
-        const voteButton = document.createElement('button');
-        voteButton.textContent = 'Vote';
-        voteButton.classList.add('vote-btn');
-        voteButton.addEventListener('click', () => {
-          voteForIdea(childSnapshot.key);
-        });
+  onValue(ref(database, 'ideas'), (snapshot) => {
+    snapshot.forEach((childSnapshot) => {
+      const idea = childSnapshot.val();
+      const ideaCard = document.createElement('div');
+      ideaCard.classList.add('idea-card');
 
-        ideaCard.appendChild(ideaText);
-        ideaCard.appendChild(displayName);
-        ideaCard.appendChild(votes);
-        ideaCard.appendChild(voteButton);
-        ideaGallery.appendChild(ideaCard);
+      // Format timestamp to a readable date
+      const timestamp = new Date(idea.timestamp);
+      const formattedDate = timestamp.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+
+      const ideaText = document.createElement('p');
+      ideaText.textContent = `Idea: ${idea.text}`;
+      const displayName = document.createElement('p');
+      displayName.textContent = `Submitted by: ${idea.displayName}`;
+      const votes = document.createElement('p');
+      votes.textContent = `Votes: ${idea.votes}`;
+      const date = document.createElement('p');
+      date.textContent = `Date: ${formattedDate}`; // Append formatted date
+
+      const voteButton = document.createElement('button');
+      voteButton.textContent = 'Vote';
+      voteButton.classList.add('vote-btn');
+      voteButton.addEventListener('click', () => {
+        voteForIdea(childSnapshot.key);
       });
-    });
-  }
 
+      ideaCard.appendChild(ideaText);
+      ideaCard.appendChild(displayName);
+      ideaCard.appendChild(votes);
+      ideaCard.appendChild(date);
+      ideaCard.appendChild(voteButton);
+      ideaList.appendChild(ideaCard);
+    });
+  });
+}
   // Function to handle idea submission
   document.getElementById('submitIdeaBtn').addEventListener('click', () => {
     const ideaInput = document.getElementById('ideaInput');
