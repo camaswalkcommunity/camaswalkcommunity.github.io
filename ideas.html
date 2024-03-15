@@ -158,7 +158,8 @@
     <form id="ideaForm">
       <div class="form-group">
         <label for="ideaInput">Idea:</label>
-        <input type="text" id="ideaInput" placeholder="Enter your idea">
+        <!-- Replace input with textarea -->
+        <textarea id="ideaInput" placeholder="Enter your idea"></textarea>
       </div>
       <button type="submit" id="submitIdeaBtn">Submit</button>
     </form>
@@ -209,6 +210,19 @@
     timestamp: timestamp // Add timestamp to the idea object
   });
 }
+
+// Get the textarea element
+  const textarea = document.getElementById('ideaInput');
+
+  // Add an event listener for input events
+  textarea.addEventListener('input', () => {
+    // Reset the textarea height to default in case it has been shrunk
+    textarea.style.height = 'auto';
+
+    // Set the new height to the scrollHeight of the textarea
+    textarea.style.height = textarea.scrollHeight + 'px';
+  });
+  
 // Function to display ideas from Firebase database
 function displayIdeas() {
   const ideaList = document.getElementById('ideaList');
