@@ -15,7 +15,6 @@
     .container {
       max-width: 800px;
       margin: 50px auto;
-      background-color: #fff;
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -47,7 +46,7 @@
     }
 
     button[type="submit"] {
-      width: 100%;
+      width: 100%; /* Make button width 100% */
       padding: 10px;
       background-color: #007bff;
       color: #fff;
@@ -61,59 +60,12 @@
       background-color: #0056b3;
     }
 
-    .idea-card {
-      background-color: #fff;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .idea-card p {
-      margin: 0 0 10px;
-    }
-
-    .vote-btn {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .vote-btn:hover {
-      background-color: #0056b3;
-    }
-
-    .footer {
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-
-    .user-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      padding: 0 20px; /* Add padding to create space */
-    }
-
-    .user-info p {
-      margin-right: 10px;
-    }
-
     .idea-list-container {
       background-color: #fff;
       padding: 20px;
       margin-top: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      text-align: left; /* Align text to the left */
     }
 
     .idea-list-label {
@@ -137,6 +89,26 @@
 
     .idea-list-item p {
       margin: 0;
+    }
+
+    .footer {
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .user-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .user-info p {
+      margin-right: 10px;
     }
 
     .sign-out button {
