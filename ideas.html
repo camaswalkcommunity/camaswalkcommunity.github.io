@@ -35,7 +35,7 @@ textarea {
     }
 
     .container {
-      width: 60%;
+      max-width: 800px;
       margin: 50px auto;
       padding: 20px;
       border-radius: 8px;
@@ -83,13 +83,11 @@ textarea {
     }
 
     .idea-list-container {
-      width: 60%;
       background-color: #fff;
       padding: 20px;
       margin-top: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      margin: 20 auto;
     }
 
     .idea-list-label {
@@ -125,16 +123,16 @@ textarea {
     }
 
     .user-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start; /* Align items at the top */
-  margin-bottom: 20px;
-}
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
 
-.user-info-text {
-  display: flex; /* Ensures the text aligns correctly */
-  align-items: flex-start; /* Align text at the top */
-}
+    .user-info p {
+      margin-right: 10px;
+    }
+
     .sign-out button {
       background-color: #dc3545;
       color: #fff;
@@ -149,8 +147,6 @@ textarea {
     }
 
     .submit-idea-container {
-      width: 60%;
-      margin: 20 auto;
   background-color: #fff;
   padding: 20px;
   margin-top: 20px;
@@ -168,15 +164,13 @@ textarea {
 </head>
 <body>
 
-<div class="user-info">
-  <div class="user-info-text" id="userInfo">
-    <!-- Logged in user text -->
+<div class="container">
+  <div class="user-info">
+    <p id="userInfo">Logged in as: </p>
+    <div class="sign-out">
+      <button id="signOutBtn">Sign Out</button>
+    </div>
   </div>
-  <div class="sign-out">
-    <!-- Sign out button -->
-    <button id="signOutBtn">Sign Out</button>
-  </div>
-</div>
   <h1>Community Initiative</h1>
 
   <!-- Submit Idea Section -->
