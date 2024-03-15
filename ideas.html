@@ -180,12 +180,16 @@
   }
 
   // Function to display ideas from Firebase database
-  function displayIdeas() {
-    const ideaGallery = document.getElementById('ideaGallery');
-    ideaGallery.innerHTML = ''; // Clear existing content
+function displayIdeas() {
+  const ideaGallery = document.getElementById('ideaGallery');
+  ideaGallery.innerHTML = ''; // Clear existing content
 
-    onValue(ref(database, 'ideas'), (snapshot) => {
-      snapshot.forEach((childSnapshot) => {
+  const displayedIdeas = new Set(); // Set to track displayed idea IDs
+
+  onValue(ref(database, 'ideas'), (snapshot) => {
+    snapshot.forEach((childSnapshot) => {
+      const ideaId = childSnapshot.key;
+      if (!displayedIdeas.has(ideaId)) { // Check if idea is not already displayed
         const idea = childSnapshot.val();
         const ideaCard = document.createElement('div');
         ideaCard.classList.add('idea-card');
@@ -207,9 +211,13 @@
         ideaCard.appendChild(votes);
         ideaCard.appendChild(voteButton);
         ideaGallery.appendChild(ideaCard);
-      });
+
+        displayedIdeas.add(ideaId); // Add idea key to displayed set
+      }
     });
-  }
+  });
+}
+
 
   // Function to handle idea submission
   document.getElementById('ideaForm').addEventListener('submit', (e) => {
