@@ -211,39 +211,46 @@
 // Function to display ideas from Firebase database
 function displayIdeas() {
   const ideaList = document.getElementById('ideaList');
+  ideaList.innerHTML = ''; // Clear existing content
 
   onValue(ref(database, 'ideas'), (snapshot) => {
-    // Keep track of existing idea IDs to prevent duplicates
-    const existingIdeas = new Set(Array.from(ideaList.querySelectorAll('.idea-card')).map(card => card.id));
-
     snapshot.forEach((childSnapshot) => {
       const idea = childSnapshot.val();
-      const ideaId = childSnapshot.key;
+      const ideaCard = document.createElement('div');
+      ideaCard.classList.add('idea-card');
 
-      // Check if the idea already exists in the list
-      if (!existingIdeas.has(ideaId)) {
-        const ideaCard = document.createElement('div');
-        ideaCard.classList.add('idea-card');
-        ideaCard.id = ideaId; // Set ID for the idea card
+      // Format timestamp to a readable date
+      const timestamp = new Date(idea.timestamp);
+      const formattedDate = timestamp.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
 
-        const ideaText = document.createElement('p');
-        ideaText.textContent = `Idea: ${idea.text}`;
-        const displayName = document.createElement('p');
-        displayName.textContent = `Submitted by: ${idea.displayName}`;
-        const votes = document.createElement('p');
-        votes.textContent = `Votes: ${idea.votes}`;
-        votes.classList.add('votes'); // Add a class for vote count
+      const ideaText = document.createElement('p');
+      ideaText.textContent = `Idea: ${idea.text}`;
+      const displayName = document.createElement('p');
+      displayName.textContent = `Submitted by: ${idea.displayName}`;
+      const votes = document.createElement('p');
+      votes.textContent = `Votes: ${idea.votes}`;
+      const date = document.createElement('p');
+      date.textContent = `Date: ${formattedDate}`; // Append formatted date
 
-        const voteButton = document.createElement('button');
-        voteButton.textContent = 'Vote';
-        voteButton.classList.add('vote-btn');
+      const voteButton = document.createElement('button');
+      voteButton.textContent = 'Vote';
+      voteButton.classList.add('vote-btn');
+      voteButton.addEventListener('click', () => {
+        voteForIdea(childSnapshot.key);
+      });
 
-        ideaCard.appendChild(ideaText);
-        ideaCard.appendChild(displayName);
-        ideaCard.appendChild(votes);
-        ideaCard.appendChild(voteButton);
-        ideaList.appendChild(ideaCard);
-      }
+      ideaCard.appendChild(ideaText);
+      ideaCard.appendChild(displayName);
+      ideaCard.appendChild(votes);
+      ideaCard.appendChild(date);
+      ideaCard.appendChild(voteButton);
+      ideaList.appendChild(ideaCard);
+
+      // Update vote count in frontend UI when changes occur in the database
+      onValue(ref(database, `ideas/${childSnapshot.key}/votes`), (votesSnapshot) => {
+        const updatedVotes = votesSnapshot.val();
+        votes.textContent = `Votes: ${updatedVotes}`;
+      });
     });
   });
 }
@@ -288,10 +295,10 @@ function voteForIdea(ideaId) {
 }
 
 
-  // Function to update vote count in database
-  function updateVoteCount(ideaId, newVoteCount) {
-    set(ref(database, `ideas/${ideaId}/votes`), newVoteCount);
-  }
+// Function to update vote count in database
+function updateVoteCount(ideaId, newVoteCount) {
+  set(ref(database, `ideas/${ideaId}/votes`), newVoteCount);
+}
 
     // Function to update vote count in frontend
 function updateVoteDisplay(ideaId, voteCount) {
