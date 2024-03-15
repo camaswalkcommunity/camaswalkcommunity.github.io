@@ -12,38 +12,25 @@
       padding: 0;
     }
 
-    .container {
+    .page-title {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .section-container {
       max-width: 800px;
-      margin: 50px auto;
+      margin: 20px auto;
       background-color: #fff;
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .user-info {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .user-info p {
-      margin-right: 10px;
-    }
-
     .submit-idea-section,
     .idea-list-section {
-      margin-bottom: 20px;
-    }
-
-    .submit-idea-section h2,
-    .idea-list-section h2 {
-      margin-top: 0;
-    }
-
-    .submit-idea-section form {
-      margin-bottom: 20px;
+      margin-top: 20px;
     }
 
     .idea-card {
@@ -60,10 +47,11 @@
 </head>
 <body>
 
-<div class="container">
-  <div class="user-info" id="userInfo"></div>
+<div class="page-title">
   <h1>Community Initiative</h1>
+</div>
 
+<div class="section-container">
   <!-- Submit Idea Section -->
   <div class="submit-idea-section">
     <h2>Submit Your Idea</h2>
@@ -75,7 +63,9 @@
       <button type="submit" id="submitIdeaBtn">Submit</button>
     </form>
   </div>
+</div>
 
+<div class="section-container">
   <!-- Idea List Section -->
   <div class="idea-list-section">
     <h2>Ideas</h2>
@@ -115,21 +105,18 @@
       text: ideaText,
       displayName: displayName,
       votes: 0,
-      likedBy: []
+      likedBy: [],
+      timestamp: new Date().getTime() // Add timestamp
     });
   }
 
   // Function to display ideas from Firebase database
   function displayIdeas() {
-  const ideaGallery = document.getElementById('ideaGallery');
-  ideaGallery.innerHTML = ''; // Clear existing content
+    const ideaGallery = document.getElementById('ideaGallery');
+    ideaGallery.innerHTML = ''; // Clear existing content
 
-  const displayedIdeas = new Set(); // Set to track displayed idea IDs
-
-  onValue(ref(database, 'ideas'), (snapshot) => {
-    snapshot.forEach((childSnapshot) => {
-      const ideaId = childSnapshot.key;
-      if (!displayedIdeas.has(ideaId)) { // Check if idea is not already displayed
+    onValue(ref(database, 'ideas'), (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
         const idea = childSnapshot.val();
         const ideaCard = document.createElement('div');
         ideaCard.classList.add('idea-card');
@@ -139,6 +126,8 @@
         displayName.textContent = `Submitted by: ${idea.displayName}`;
         const votes = document.createElement('p');
         votes.textContent = `Votes: ${idea.votes}`;
+        const timestamp = document.createElement('p');
+        timestamp.textContent = `Submitted on: ${new Date(idea.timestamp).toLocaleString()}`; // Display timestamp
         const voteButton = document.createElement('button');
         voteButton.textContent = 'Vote';
         voteButton.classList.add('vote-btn');
@@ -149,14 +138,12 @@
         ideaCard.appendChild(ideaText);
         ideaCard.appendChild(displayName);
         ideaCard.appendChild(votes);
+        ideaCard.appendChild(timestamp); // Append timestamp
         ideaCard.appendChild(voteButton);
         ideaGallery.appendChild(ideaCard);
-
-        displayedIdeas.add(ideaId); // Add idea key to displayed set
-      }
+      });
     });
-  });
-}
+  }
 
   // Function to handle idea submission
   document.getElementById('ideaForm').addEventListener('submit', (e) => {
