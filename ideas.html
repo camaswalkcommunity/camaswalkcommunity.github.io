@@ -267,34 +267,48 @@
   });
 
   // Function to handle voting for an idea
-  function voteForIdea(ideaId) {
-    runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
-      if (idea) {
-        const user = auth.currentUser;
-        if (user) {
-          const userId = user.uid;
-          if (!idea.likedBy) {
-            idea.likedBy = [];
-          }
-          if (!idea.likedBy.includes(userId)) {
-            idea.votes++;
-            idea.likedBy.push(userId);
-            updateVoteCount(ideaId, idea.votes); // Update vote count in database
-          } else {
-            console.log("You have already voted for this idea.");
-          }
+function voteForIdea(ideaId) {
+  runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
+    if (idea) {
+      const user = auth.currentUser;
+      if (user) {
+        const userId = user.uid;
+        if (!idea.likedBy) {
+          idea.likedBy = [];
         }
-      } else {
-        console.log("Idea is undefined.");
+        if (!idea.likedBy.includes(userId)) {
+          idea.votes++;
+          idea.likedBy.push(userId);
+          updateVoteCount(ideaId, idea.votes); // Update vote count in database
+          updateVoteDisplay(ideaId, idea.votes); // Update vote count in frontend
+        } else {
+          console.log("You have already voted for this idea.");
+        }
       }
-      return idea;
-    });
-  }
+    } else {
+      console.log("Idea is undefined.");
+    }
+    return idea;
+  });
+}
+
 
   // Function to update vote count in database
   function updateVoteCount(ideaId, newVoteCount) {
     set(ref(database, `ideas/${ideaId}/votes`), newVoteCount);
   }
+
+    // Function to update vote count in frontend
+function updateVoteDisplay(ideaId, voteCount) {
+  const ideaCard = document.getElementById(ideaId);
+  if (ideaCard) {
+    const votesElement = ideaCard.querySelector('.votes');
+    if (votesElement) {
+      votesElement.textContent = `Votes: ${voteCount}`;
+    }
+  }
+}
+
 
   // Function to logout user
   document.getElementById('signOutBtn').addEventListener('click', () => {
