@@ -265,8 +265,7 @@ function displayIdeas() {
     }
   });
 
-  // Function to handle voting for an idea
-function voteForIdea(ideaId) {
+  function voteForIdea(ideaId) {
   runTransaction(ref(database, `ideas/${ideaId}`), (idea) => {
     if (idea) {
       const user = auth.currentUser;
@@ -290,7 +289,6 @@ function voteForIdea(ideaId) {
     return idea;
   });
 }
-
 
 // Function to update vote count in database
 function updateVoteCount(ideaId, newVoteCount) {
