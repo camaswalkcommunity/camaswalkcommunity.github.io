@@ -22,9 +22,8 @@
     }
 
     h1 {
-      font-size: 48px;
+      font-size: 36px;
       margin-bottom: 20px;
-      margin-top: 0px;
       text-align: center;
       color: #333;
     }
@@ -48,7 +47,7 @@
     }
 
     button[type="submit"] {
-      width: auto; /* Adjust width to fit content */
+      width: 100%; /* Make button width 100% */
       padding: 10px;
       background-color: #007bff;
       color: #fff;
@@ -231,6 +230,9 @@ function displayIdeas() {
         ideaText.textContent = `Idea: ${idea.text}`;
         const displayName = document.createElement('p');
         displayName.textContent = `Submitted by: ${idea.displayName}`;
+        const votes = document.createElement('p');
+votes.classList.add('votes'); // Add class 'votes'
+votes.textContent = `Votes: ${idea.votes}`;
         const date = document.createElement('p');
         const formattedDate = new Date(idea.timestamp).toLocaleString('en-US', {
           weekday: 'long',
@@ -242,9 +244,6 @@ function displayIdeas() {
           second: 'numeric'
         });
         date.textContent = `Date: ${formattedDate}`; // Add the formatted date
-        const votes = document.createElement('p');
-        votes.classList.add('votes'); // Add class 'votes'
-        votes.textContent = `Votes: ${idea.votes}`;
         
         const voteButton = document.createElement('button');
         voteButton.textContent = 'Vote';
@@ -255,8 +254,8 @@ function displayIdeas() {
 
         ideaCard.appendChild(ideaText);
         ideaCard.appendChild(displayName);
-        ideaCard.appendChild(votes);
         ideaCard.appendChild(date);
+        ideaCard.appendChild(votes);
         ideaCard.appendChild(voteButton);
         ideaList.appendChild(ideaCard);
       }
