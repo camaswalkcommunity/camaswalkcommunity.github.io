@@ -208,50 +208,46 @@
     timestamp: timestamp // Add timestamp to the idea object
   });
 }
-
- function displayIdeas() {
+// Function to display ideas from Firebase database
+function displayIdeas() {
   const ideaList = document.getElementById('ideaList');
   ideaList.innerHTML = ''; // Clear existing content
 
   onValue(ref(database, 'ideas'), (snapshot) => {
     snapshot.forEach((childSnapshot) => {
       const idea = childSnapshot.val();
-      const ideaKey = childSnapshot.key; // Get the key of the idea
-      
-      // Check if the idea already exists in the DOM
-      const existingIdea = document.getElementById(ideaKey);
-      if (!existingIdea) {
-        const ideaCard = document.createElement('div');
-        ideaCard.classList.add('idea-card');
-        ideaCard.id = ideaKey; // Set the ID of the idea card to its key
-        
-        const ideaText = document.createElement('p');
-        ideaText.textContent = `Idea: ${idea.text}`;
-        const displayName = document.createElement('p');
-        displayName.textContent = `Submitted by: ${idea.displayName}`;
-        const votes = document.createElement('p');
-        votes.textContent = `Votes: ${idea.votes}`;
-        const date = document.createElement('p');
-        date.textContent = `Date: ${idea.timestamp}`; // Add the timestamp directly
-        
-        const voteButton = document.createElement('button');
-        voteButton.textContent = 'Vote';
-        voteButton.classList.add('vote-btn');
-        voteButton.addEventListener('click', () => {
-          voteForIdea(ideaKey); // Pass the idea key to the vote function
-        });
+      const ideaCard = document.createElement('div');
+      ideaCard.classList.add('idea-card');
+      ideaCard.id = childSnapshot.key; // Set ID for the idea card
 
-        ideaCard.appendChild(ideaText);
-        ideaCard.appendChild(displayName);
-        ideaCard.appendChild(votes);
-        ideaCard.appendChild(date);
-        ideaCard.appendChild(voteButton);
-        ideaList.appendChild(ideaCard);
+      const ideaText = document.createElement('p');
+      ideaText.textContent = `Idea: ${idea.text}`;
+      const displayName = document.createElement('p');
+      displayName.textContent = `Submitted by: ${idea.displayName}`;
+      const votes = document.createElement('p');
+      votes.textContent = `Votes: ${idea.votes}`;
+      votes.classList.add('votes'); // Add a class for vote count
+
+      const voteButton = document.createElement('button');
+      voteButton.textContent = 'Vote';
+      voteButton.classList.add('vote-btn');
+
+      ideaCard.appendChild(ideaText);
+      ideaCard.appendChild(displayName);
+      ideaCard.appendChild(votes);
+      ideaCard.appendChild(voteButton);
+      ideaList.appendChild(ideaCard);
+    });
+
+    // Attach event listener for vote buttons using event delegation
+    ideaList.addEventListener('click', (event) => {
+      if (event.target.classList.contains('vote-btn')) {
+        const ideaId = event.target.closest('.idea-card').id;
+        voteForIdea(ideaId);
       }
     });
   });
 }
-
   
   // Function to handle idea submission
   document.getElementById('submitIdeaBtn').addEventListener('click', () => {
