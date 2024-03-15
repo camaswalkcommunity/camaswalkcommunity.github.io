@@ -128,30 +128,7 @@ textarea {
       width: 100%;
     }
 
-    .user-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .user-info p {
-      margin-right: 10px;
-    }
-
-    .sign-out button {
-      background-color: #dc3545;
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .sign-out button:hover {
-      background-color: #c82333;
-    }
-
+   
     .submit-idea-container {
   background-color: #fff;
   padding: 20px;
@@ -407,18 +384,6 @@ function updateVoteDisplay(ideaId, voteCount) {
       console.log('Error logging out:', error);
     });
   });
-
-  // Function to display user info
-  function displayUserInfo(user) {
-    const userInfo = document.getElementById('userInfo');
-    if (userInfo) {
-      if (user) {
-        userInfo.innerHTML = `<p>Logged in as: ${user.displayName}</p>`;
-      } else {
-        userInfo.innerHTML = '<p>Not logged in</p>';
-      }
-    }
-  }
 
   // Display initial set of ideas when the page is loaded
   document.addEventListener('DOMContentLoaded', () => {
