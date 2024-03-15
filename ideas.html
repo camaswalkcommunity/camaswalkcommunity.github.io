@@ -192,9 +192,14 @@
     });
   }
 
-  // Function to display user info
+ // Function to display user info
 function displayUserInfo(user) {
   const userInfo = document.getElementById('userInfo');
+  if (!userInfo) {
+    console.error("User info container not found.");
+    return;
+  }
+
   if (user) {
     const userInfoText = document.createElement('p');
     userInfoText.textContent = `Logged in as: ${user.displayName}`;
