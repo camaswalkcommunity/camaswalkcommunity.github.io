@@ -203,7 +203,7 @@ function displayIdeas() {
         voteButton.textContent = 'Vote';
         voteButton.classList.add('vote-btn');
         voteButton.addEventListener('click', () => {
-          voteForIdea(childSnapshot.key);
+          voteForIdea(ideaId); // Pass ideaId instead of childSnapshot.key
         });
 
         ideaCard.appendChild(ideaText);
